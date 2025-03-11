@@ -1,0 +1,334 @@
+FORUM: 2025/03/11 14:21:03 logs.go:25: Logger created successfully
+FORUM: 2025/03/11 14:21:03 parseTemplates.go:12: Attempting to parse templates with pattern:  ./templates/*.html
+FORUM: 2025/03/11 14:21:03 parseTemplates.go:24: Templates loaded successfully
+FORUM: 2025/03/11 14:21:05 homeHandler.go:13: Handling request for Home page
+FORUM: 2025/03/11 14:21:05 homeHandler.go:21: Checking for session token
+FORUM: 2025/03/11 14:21:05 homeHandler.go:24: No session token found, user not logged in
+FORUM: 2025/03/11 14:21:05 homeHandler.go:54: Setting cookie: session_token = 
+FORUM: 2025/03/11 14:21:05 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:21:05 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:21:05 session.go:15: SessionCheck: No session token found
+FORUM: 2025/03/11 14:21:05 authentication.go:33: Session check failed: Unauthorized access attempt
+FORUM: 2025/03/11 14:21:05 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:21:05 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:05 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:21:05 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:21:05 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:21:05 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:21:05 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:05 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:21:05 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:21:05 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:21:05 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:21:05 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:05 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:21:05 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:21:05 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:21:05 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:21:05 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:21:05 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:21:05 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:21:05 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:21:05 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:21:05 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:05 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:21:05 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:21:05 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:21:05 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:21:05 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:05 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:21:05 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:21:05 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:21:05 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:21:05 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:05 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:21:05 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:21:05 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:21:05 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:21:05 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:21:05 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:21:28 register.go:82: Register: Successful registration for user: eee User ID: 4
+FORUM: 2025/03/11 14:21:28 homeHandler.go:13: Handling request for Home page
+FORUM: 2025/03/11 14:21:28 homeHandler.go:21: Checking for session token
+FORUM: 2025/03/11 14:21:28 homeHandler.go:30: Session token found, verifying...
+FORUM: 2025/03/11 14:21:28 session.go:38: SessionCheck: Session is valid for token: 01958594-fb13-78ef-8d83-317b0e5f7ed8
+FORUM: 2025/03/11 14:21:28 homeHandler.go:47: User is logged in: {true eee false}
+FORUM: 2025/03/11 14:21:28 homeHandler.go:48: User successfully logged in: eee
+FORUM: 2025/03/11 14:21:28 homeHandler.go:54: Setting cookie: session_token = 01958594-fb13-78ef-8d83-317b0e5f7ed8
+FORUM: 2025/03/11 14:21:28 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:21:28 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:21:28 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:21:28 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:28 session.go:38: SessionCheck: Session is valid for token: 01958594-fb13-78ef-8d83-317b0e5f7ed8
+FORUM: 2025/03/11 14:21:28 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:21:28 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:21:28 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:21:28 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:21:28 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:28 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:21:28 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:21:28 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:21:28 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:21:28 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:21:28 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:21:28 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:21:28 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:21:28 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:21:28 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:21:28 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:23:26 logout.go:59: Logout successful: User eee logged out, session removed.
+FORUM: 2025/03/11 14:23:26 homeHandler.go:13: Handling request for Home page
+FORUM: 2025/03/11 14:23:26 homeHandler.go:21: Checking for session token
+FORUM: 2025/03/11 14:23:26 homeHandler.go:24: No session token found, user not logged in
+FORUM: 2025/03/11 14:23:26 homeHandler.go:54: Setting cookie: session_token = 
+FORUM: 2025/03/11 14:23:26 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:23:26 session.go:15: SessionCheck: No session token found
+FORUM: 2025/03/11 14:23:26 authentication.go:33: Session check failed: Unauthorized access attempt
+FORUM: 2025/03/11 14:23:26 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:23:26 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:23:26 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:26 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:23:26 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:23:26 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:23:26 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:23:26 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:26 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:23:26 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:23:26 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:23:26 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:23:26 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:26 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:23:26 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:23:26 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:23:26 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:23:26 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:23:26 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:23:26 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:23:26 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:23:26 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:23:26 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:26 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:23:26 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:23:26 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:23:26 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:23:26 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:26 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:23:26 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:23:26 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:23:26 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:23:26 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:26 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:23:26 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:23:26 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:23:26 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:23:26 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:23:26 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:23:56 homeHandler.go:13: Handling request for Home page
+FORUM: 2025/03/11 14:23:56 homeHandler.go:21: Checking for session token
+FORUM: 2025/03/11 14:23:56 homeHandler.go:24: No session token found, user not logged in
+FORUM: 2025/03/11 14:23:56 homeHandler.go:54: Setting cookie: session_token = 
+FORUM: 2025/03/11 14:23:56 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:23:56 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:23:56 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:23:56 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:56 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:23:56 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:23:56 session.go:15: SessionCheck: No session token found
+FORUM: 2025/03/11 14:23:56 authentication.go:33: Session check failed: Unauthorized access attempt
+FORUM: 2025/03/11 14:23:56 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:23:56 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:23:56 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:56 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:23:56 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:23:56 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:23:56 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:23:56 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:56 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:23:56 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:23:56 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:23:56 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:23:56 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:23:56 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:23:56 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:23:56 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:23:56 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:23:56 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:56 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:23:56 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:23:56 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:23:56 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:23:56 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:56 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:23:56 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:23:56 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:23:56 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:23:56 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:23:56 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:23:56 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:23:56 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:23:56 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:23:56 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:23:56 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:24:38 register.go:82: Register: Successful registration for user: ghhghg User ID: 5
+FORUM: 2025/03/11 14:24:38 homeHandler.go:13: Handling request for Home page
+FORUM: 2025/03/11 14:24:38 homeHandler.go:21: Checking for session token
+FORUM: 2025/03/11 14:24:38 homeHandler.go:30: Session token found, verifying...
+FORUM: 2025/03/11 14:24:38 session.go:38: SessionCheck: Session is valid for token: 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:24:38 homeHandler.go:47: User is logged in: {true ghhghg false}
+FORUM: 2025/03/11 14:24:38 homeHandler.go:48: User successfully logged in: ghhghg
+FORUM: 2025/03/11 14:24:38 homeHandler.go:54: Setting cookie: session_token = 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:24:38 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:24:38 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:24:38 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:24:38 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:24:38 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:24:38 session.go:38: SessionCheck: Session is valid for token: 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:24:38 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:24:38 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:24:38 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:24:38 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:24:38 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:24:38 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:24:38 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:24:38 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:24:38 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:24:38 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:24:38 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:24:38 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:24:38 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:24:38 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:24:38 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:25:35 session.go:38: SessionCheck: Session is valid for token: 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:25:35 fetch_Created_Posts.go:18: Fetching posts created by user 'ghhghg'. Executing query: 
+		SELECT username, id, title, content, Categories, created_at, likes, dislikes
+		FROM posts
+		WHERE username = ?
+		ORDER BY created_at DESC
+	
+FORUM: 2025/03/11 14:25:35 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:25:35 getPosts.go:210: Finished processing rows. Total posts fetched: 0
+FORUM: 2025/03/11 14:25:35 fetch_Created_Posts.go:29: Successfully fetched posts created by user 'ghhghg'
+FORUM: 2025/03/11 14:25:38 session.go:38: SessionCheck: Session is valid for token: 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:25:38 fetch_Created_Posts.go:18: Fetching posts created by user 'ghhghg'. Executing query: 
+		SELECT username, id, title, content, Categories, created_at, likes, dislikes
+		FROM posts
+		WHERE username = ?
+		ORDER BY created_at DESC
+	
+FORUM: 2025/03/11 14:25:38 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:25:38 getPosts.go:210: Finished processing rows. Total posts fetched: 0
+FORUM: 2025/03/11 14:25:38 fetch_Created_Posts.go:29: Successfully fetched posts created by user 'ghhghg'
+FORUM: 2025/03/11 14:25:39 session.go:38: SessionCheck: Session is valid for token: 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:25:39 fetch_Created_Posts.go:50: Fetching posts liked by user '5'. Executing query: 
+		SELECT posts.username, 
+    		posts.id AS post_id, 
+    		posts.title, 
+    		posts.content, 
+    		posts.Categories, 
+    		posts.created_at, 
+    		posts.likes, 
+    		posts.dislikes
+		FROM posts
+		JOIN user_interactions ON posts.id = user_interactions.item_id
+		WHERE user_interactions.user_id = ? 
+  		AND user_interactions.item_type = "post" 
+  		AND user_interactions.action = "like"
+		ORDER BY posts.created_at DESC
+	
+FORUM: 2025/03/11 14:25:39 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:25:39 getPosts.go:210: Finished processing rows. Total posts fetched: 0
+FORUM: 2025/03/11 14:25:39 fetch_Created_Posts.go:61: Successfully fetched posts liked by userID '5'
+FORUM: 2025/03/11 14:25:43 homeHandler.go:13: Handling request for Home page
+FORUM: 2025/03/11 14:25:43 homeHandler.go:21: Checking for session token
+FORUM: 2025/03/11 14:25:43 homeHandler.go:30: Session token found, verifying...
+FORUM: 2025/03/11 14:25:43 session.go:38: SessionCheck: Session is valid for token: 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:25:43 homeHandler.go:47: User is logged in: {true ghhghg false}
+FORUM: 2025/03/11 14:25:43 homeHandler.go:48: User successfully logged in: ghhghg
+FORUM: 2025/03/11 14:25:43 homeHandler.go:54: Setting cookie: session_token = 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:25:43 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:25:43 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:25:43 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:25:43 session.go:38: SessionCheck: Session is valid for token: 01958597-e190-78ef-a868-1e6af7f76d58
+FORUM: 2025/03/11 14:25:43 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:25:43 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:25:43 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:25:43 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:25:43 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:25:43 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:25:43 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:25:43 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:25:43 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:25:43 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:25:43 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:25:43 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:25:43 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:25:43 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:25:43 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:25:43 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:25:43 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:25:49 getPosts.go:44: Categories found in URL: [Sports]
+FORUM: 2025/03/11 14:25:49 getPosts.go:47: Fetching posts by categories: [Sports] for page 1
+FORUM: 2025/03/11 14:25:49 getPosts.go:123: Category Found: Sports
+FORUM: 2025/03/11 14:25:49 getPosts.go:142: Params:  [%Sports% 10 <nil>]
+FORUM: 2025/03/11 14:25:49 getPosts.go:144: Executing query: 
+		SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+		FROM posts 
+		WHERE Categories LIKE ?
+		ORDER BY created_at DESC 
+		LIMIT ? with categories: [Sports], limit: 10
+FORUM: 2025/03/11 14:25:49 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:25:49 getPosts.go:210: Finished processing rows. Total posts fetched: 0
+FORUM: 2025/03/11 14:25:51 getPosts.go:86: Fetching posts for page 1
+FORUM: 2025/03/11 14:25:51 getPosts.go:164: Executing query: SELECT username, id, title, content, Categories, created_at, likes, dislikes 
+              FROM posts 
+              ORDER BY created_at DESC 
+              LIMIT ? with limit 10
+FORUM: 2025/03/11 14:25:51 getPosts.go:177: Starting to process rows...
+FORUM: 2025/03/11 14:25:51 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:25:51 getPosts.go:189: Successfully scanned post with ID: 3
+FORUM: 2025/03/11 14:25:51 getPosts.go:192: Fetching comments for post ID: 3
+FORUM: 2025/03/11 14:25:51 getPosts.go:199: Successfully fetched comments for post ID: 3, Comments: []
+FORUM: 2025/03/11 14:25:51 getPosts.go:201: Appending post with ID: 3 to posts slice
+FORUM: 2025/03/11 14:25:51 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:25:51 getPosts.go:189: Successfully scanned post with ID: 2
+FORUM: 2025/03/11 14:25:51 getPosts.go:192: Fetching comments for post ID: 2
+FORUM: 2025/03/11 14:25:51 getPosts.go:199: Successfully fetched comments for post ID: 2, Comments: []
+FORUM: 2025/03/11 14:25:51 getPosts.go:201: Appending post with ID: 2 to posts slice
+FORUM: 2025/03/11 14:25:51 getPosts.go:182: Scanning row for post...
+FORUM: 2025/03/11 14:25:51 getPosts.go:189: Successfully scanned post with ID: 1
+FORUM: 2025/03/11 14:25:51 getPosts.go:192: Fetching comments for post ID: 1
+FORUM: 2025/03/11 14:25:51 getPosts.go:199: Successfully fetched comments for post ID: 1, Comments: []
+FORUM: 2025/03/11 14:25:51 getPosts.go:201: Appending post with ID: 1 to posts slice
+FORUM: 2025/03/11 14:25:51 getPosts.go:210: Finished processing rows. Total posts fetched: 3
+FORUM: 2025/03/11 14:25:51 getPosts.go:113: Number of posts returned: 3
+FORUM: 2025/03/11 14:34:46 main.go:48: 
+Received termination signal: interrupt
+FORUM: 2025/03/11 14:34:46 main.go:49: Shutting down...
+FORUM: 2025/03/11 14:34:46 main.go:51: Database connection closed.
