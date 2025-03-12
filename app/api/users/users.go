@@ -6,13 +6,12 @@ import (
 	"forum/app/config"
 	"forum/app/models"
 	"net/http"
-	"time"
 )
 
 type User struct {
-	Username      string     `json:"username"`
-	LastMessageAt *time.Time `json:"last_message_at"`
-	IsOnline      bool       `json:"isOnline"`
+	Username      string `json:"username"`
+	LastMessageAt string `json:"last_message_at"`
+	IsOnline      bool   `json:"isOnline"`
 }
 
 func GetUsers(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -20,15 +19,18 @@ func GetUsers(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	// Get all users from the database arranged by last message sent/ recieved and rest alphabetically
 	userID := r.URL.Query().Get("requester")
 	query := `
-		SELECT users.id, users.username, MAX(messages.timestamp) AS last_message_at
+		SELECT users.id, users.username, COALESCE(MAX(messages.timestamp), '') AS last_message_at
 FROM users
-LEFT JOIN messages ON users.id = messages.senderID OR users.id = messages.receiverID
+LEFT JOIN messages 
+ ON (users.id = messages.senderID OR users.id = messages.receiverID)
+AND (messages.senderID = ? OR messages.receiverID = ?)
 WHERE users.id != ?
-GROUP BY users.username
+GROUP BY users.id, users.username
 ORDER BY last_message_at DESC, users.username ASC;
+
 	`
 
-	rows, err := db.Query(query, userID)
+	rows, err := db.Query(query, userID, userID, userID)
 	if err != nil {
 		config.Logger.Printf("Error querying users: %v", err)
 		models.SendErrorResponse(w, http.StatusInternalServerError, "Error: Internal server error")

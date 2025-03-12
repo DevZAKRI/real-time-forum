@@ -4,9 +4,11 @@ import { createPostElement } from "./posts.js";
 import { logout } from "./auth.js";
 import { checkPost } from "./addposts.js";
 import { createList } from "./users.js";
+import { Chat } from "./chat.js";
 
 export const Home = async () => {
     createList();
+    Chat();
     const loadMoreButton = document.getElementById('load-more');
     if (loadMoreButton) {
         loadMoreButton.style.display = 'none';

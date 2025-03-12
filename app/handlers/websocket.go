@@ -76,10 +76,14 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 		config.Logger.Printf("User %s not found", msg.Receiver)
 		return
 	}
+	if msg.Content == "" {
+		config.Logger.Printf("Empty message from %s to %s", username, msg.Receiver)
+		return
+	}
 	config.Logger.Printf("Message from %s to %s: %s", username, msg.Receiver, msg.Content)
 	msg.Type = "message"
 	_, err = db.Exec("INSERT INTO messages (sender, senderID, receiver, receiverID, content, timestamp, delivered) VALUES (?, ?, ?, ?, ?, ?, ?)",
-		username, msg.Receiver, msg.Content, msg.Timestamp, 0)
+		msg.Sender, msg.SenderID, msg.Receiver, msg.ReceiverID, msg.Content, msg.Timestamp, 0)
 	if err != nil {
 		config.Logger.Printf("Database Insert Error: %v", err)
 		return
@@ -88,7 +92,7 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 	models.ClientsLock.Lock()
 	defer models.ClientsLock.Unlock()
 
-	if recipient, exists := models.Clients[msg.ReceiverID]; exists {
+	if recipient, exists := models.Clients[msg.Receiver]; exists {
 		jsonMessage, _ := json.Marshal(msg)
 		err := recipient.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
 		if err != nil {
