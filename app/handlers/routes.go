@@ -14,7 +14,9 @@ func RegisterRoutes(DB *sql.DB) {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		Home(w, r, DB)
 	})
-	
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		HandleConnections(w, r, DB)
+	})
 	http.HandleFunc("/api/", utils.RateLimitMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		Router(w, r, DB)
 	}, 5, 1*time.Second))

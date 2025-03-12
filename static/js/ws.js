@@ -1,5 +1,5 @@
 export let ws = null;
-import { Auth } from "./auth.js";
+import { showNotification } from "./components/notifications.js";
 export function initializeWebSocket(userID) {
     if (ws && ws.readyState === WebSocket.OPEN) {
         console.log("WebSocket is already open");
@@ -28,7 +28,7 @@ export function initializeWebSocket(userID) {
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else if (message.sender !== message.receiver) {
                     console.log('New Message Recieved From ' + message.sender);
-                    Auth.showNotification('New Message Recieved From ' + message.sender, 'success');
+                    showNotification('New Message Recieved From ' + message.sender);
                 }
                 break;
                 case 'status':
@@ -51,9 +51,9 @@ export function initializeWebSocket(userID) {
         console.error("WebSocket error:", error);
     };
 
-    ws.onclose = () => {
-        console.log("WebSocket connection closed")
-    }
+    // ws.onclose = () => {
+    //     console.log("WebSocket connection closed")
+    // }
 }
 
 export function closedWs() {

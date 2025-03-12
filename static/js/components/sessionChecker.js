@@ -1,7 +1,7 @@
-import { showNotification } from './notifications.js';
-import { logout, openAuthModal } from '../auth.js';
-import { Home } from '../Home.js';
+import { initializeWebSocket } from '../ws.js';
 
+
+// Description: This file contains the code to check if the user is logged in or not.
 export async function SessionCheck() {
     console.log("test");
         const response = await CheckAuth('/api/auth/session');
@@ -9,6 +9,8 @@ export async function SessionCheck() {
             clearCookies();
             return false;
         } else {
+            console.log("OOOH");
+            initializeWebSocket(localStorage.getItem('xyz'));
             return true;
         }
 }
@@ -18,9 +20,6 @@ async function CheckAuth(url, options = {}) {
         const response = await fetch(url, options);
 
         if (response.status === 401) {
-            console.log("test2");
-            logout();
-            Home();
             return null;
         }
         console.log(response);

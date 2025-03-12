@@ -1,5 +1,5 @@
 import { showNotification } from "./components/notifications.js";
-
+import { initializeWebSocket } from "./ws.js";
 
 export function createAuthModal() {
   const authModalHTML = `
@@ -158,6 +158,10 @@ export function auth() {
         );
 
         if (response.ok) {
+          const Msg = await response.json();
+          console.log(Msg);
+          localStorage.setItem('xyz', Msg.xyz)
+          initializeWebSocket(localStorage.getItem('xyz'))
           const message = isLogin ? "Login successful" : "Registration successful";
           showNotification(message, "success");
           window.location.reload();

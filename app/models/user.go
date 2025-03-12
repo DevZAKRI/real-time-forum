@@ -57,6 +57,17 @@ func (User *UserCredentials) ValidInfo(resp http.ResponseWriter, db *sql.DB) (bo
 		return false, message, http.StatusBadRequest
 	}
 
+	if User.Age < 13 || User.Age > 120 {
+		return false, "age must be between 13 and 120 only for Youths", http.StatusBadRequest
+	}
+	valid, errorData := ValidUserName(User.Firstname)
+	if !valid {
+		return false, errorData, http.StatusBadRequest
+	}
+	valid, errorData = ValidUserName(User.Lastname)
+	if !valid {
+		return false, errorData, http.StatusBadRequest
+	}
 	var username string
 	err := db.QueryRow("SELECT username FROM users WHERE username=?", User.Username).Scan(&username)
 	if err != nil && err != sql.ErrNoRows {

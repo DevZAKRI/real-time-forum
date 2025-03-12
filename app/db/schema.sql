@@ -14,12 +14,14 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     sender INTEGER NOT NULL,
+    senderID TEXT NOT NULL,
     receiver INTEGER NOT NULL,
+    receiverID TEXT NOT NULL,
     content TEXT NOT NULL,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     delivered INTEGER DEFAULT 0,
-    FOREIGN KEY(sender) REFERENCES users(id),
-    FOREIGN KEY(receiver) REFERENCES users(id)
+    FOREIGN KEY(senderID) REFERENCES users(id),
+    FOREIGN KEY(receiverID) REFERENCES users(id)
 );
 
 -- Posts table

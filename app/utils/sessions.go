@@ -92,5 +92,6 @@ func SetCookie(resp http.ResponseWriter, name, value string) {
 		Name:     name,
 		Value:    value,
 		HttpOnly: true,
+		Expires:  time.Now().Add(2 * time.Hour),
 	})
 }

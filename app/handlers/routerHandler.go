@@ -6,6 +6,7 @@ import (
 	"forum/app/api/comments"
 	"forum/app/api/posts"
 	"forum/app/api/reactions"
+	"forum/app/api/users"
 	"forum/app/models"
 	"net/http"
 	"strings"
@@ -46,7 +47,13 @@ func Router(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	case "reactions":
 		reactions.AddReaction(resp, req, db)
 		return
-
+	case "users":
+		if req.Method != http.MethodGet {
+			models.SendErrorResponse(resp, http.StatusMethodNotAllowed, "Error: Method not allowed")
+			return
+		}
+		users.GetUsers(resp, req, db)
+		return
 	default:
 		models.SendErrorResponse(resp, http.StatusNotFound, "Page Not Found")
 		return

@@ -3,7 +3,10 @@ import { filterCat } from "./filter.js";
 import { createPostElement } from "./posts.js";
 import { logout } from "./auth.js";
 import { checkPost } from "./addposts.js";
+import { createList } from "./users.js";
+
 export const Home = async () => {
+    createList();
     const loadMoreButton = document.getElementById('load-more');
     if (loadMoreButton) {
         loadMoreButton.style.display = 'none';

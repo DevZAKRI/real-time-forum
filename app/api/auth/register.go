@@ -88,5 +88,5 @@ func Register(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	config.Logger.Println("Register: Successful registration for user:", potentialUser.Username, "UserID:", userID)
 
 	resp.WriteHeader(http.StatusCreated)
-	_ = json.NewEncoder(resp).Encode(map[string]string{"message": "Registration successful", "UserID": userID.String()})
+	_ = json.NewEncoder(resp).Encode(map[string]string{"message": "Registration successful", "xyz": userID.String()})
 }
