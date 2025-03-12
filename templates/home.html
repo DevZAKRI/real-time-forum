@@ -15,7 +15,7 @@
 </noscript>
 
 <body>
-
+    {{if .IsAuthenticated}}
     <a onclick="window.scrollTo({top: 0});" class="back-to-top">
         <i class="fa-solid fa-arrow-up"></i>
     </a>
@@ -31,7 +31,7 @@
                     </div>
             </div>
             <div class="header-nav">
-                {{if .IsAuthenticated}}
+                
                 <ul class="header-list">
                     <li>
                         <p id="header-logout">Welcome ${{.Username}}</p>
@@ -39,19 +39,10 @@
                         <a id="logout-btn">Logout</a>
                     </li>
                 </ul>
-                {{else}}
-                <ul class="header-list">
-                    <li>
-                        <p id="header-login">Welcome, Guest!</p>
-                        <a id="login-register">Login / Sign Up</a>
-                    </li>
-                </ul>
-                {{end}}
             </div>
         </div>
     </header>
     <div id="notification-container" class="notification-container hidden"></div>
-    {{if .IsAuthenticated}}
     <div class="container">
         <div class="left-sidebar">
             <div class="logo">
@@ -111,7 +102,6 @@
                 </div>
             </div>
             <div id="posts-container">
-                <!-- Posts will be dynamically inserted here -->
             </div>
             <button id="load-more" style="display: none;">Load More Posts</button>
 

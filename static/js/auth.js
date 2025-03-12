@@ -14,14 +14,6 @@ export function createAuthModal() {
 
   document.body.insertAdjacentHTML("beforeend", authModalHTML);
   showLoginForm();
-
-  document
-    .querySelector('[id="authModalOverlay"]')
-    .addEventListener("click", function (event) {
-      if (event.target === this) {
-        closeAuthModal();
-      }
-    });
 }
 
 export function createLoginForm() {
@@ -71,7 +63,7 @@ export function createSignUpForm() {
         <div class="input-group">
             <input type="password" name="password" placeholder="Password" required>
         </div>
-        <div class="input-group" "gender">
+        <div class="input-group">
             <select name="gender" id="signup-gender">
               <option value="" disabled selected>Select Gender</option>
               <option value="male">Male</option>
@@ -142,7 +134,7 @@ export function auth() {
         data.lastname = document.querySelector('[name="lastname"]').value
         data.username = document.querySelector('[name="username"]').value;
         data.email = document.querySelector('[name="email"]').value;
-        data.age = document.querySelector('[name="age"]').value;
+        data.age = Number(document.querySelector('[name="age"]').value);
         data.gender = document.querySelector('[name="gender"]').value;
 
         const age = Number(data.age);

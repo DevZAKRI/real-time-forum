@@ -27,7 +27,7 @@ func Login(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	}
 
 	var (
-		userID     int
+		userID     string
 		dbPassword string
 		username   string
 	)

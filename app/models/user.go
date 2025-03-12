@@ -12,9 +12,13 @@ import (
 )
 
 type UserCredentials struct {
-	Username string
-	Email    string
-	Password string
+	Username  string
+	Firstname string
+	Lastname  string
+	Gender    string
+	Age       int
+	Email     string
+	Password  string
 }
 
 func VerifyPassword(hashedPassword, plainPassword string) bool {

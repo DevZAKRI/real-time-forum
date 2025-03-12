@@ -1,18 +1,18 @@
 export function showNotification(message, type = 'error') {
-    const container = document.getElementById('notification-container');
-    
-    container.textContent = message;
-    container.classList.remove('hidden');
-    container.classList.add('show');
+    const notification = document.createElement('div');
+    notification.id = 'notification-container';
+    notification.textContent = message;
+    notification.classList.add('show');
 
     if (type === 'success') {
-        container.style.backgroundColor = 'rgba(0, 128, 0, 0.8)';
+        notification.style.backgroundColor = 'rgba(0, 128, 0, 0.8)';
     } else {
-        container.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
+        notification.style.backgroundColor = 'rgba(255, 0, 0, 0.8)';
     }
 
+    document.body.appendChild(notification);
+
     setTimeout(() => {
-        container.classList.remove('show');
-        container.classList.add('hidden');
+        document.body.removeChild(notification);
     }, 5000);
 }

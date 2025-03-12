@@ -19,7 +19,7 @@ func GetSessionToken(req *http.Request) (string, error) {
 	return cookie.Value, nil
 }
 
-func ManageSession(db *sql.DB, userID int, username string) (string, error) {
+func ManageSession(db *sql.DB, userID string, username string) (string, error) {
 	token, err := uuid.NewV7()
 	if err != nil {
 		config.Logger.Println("Error generating session token: ", err)

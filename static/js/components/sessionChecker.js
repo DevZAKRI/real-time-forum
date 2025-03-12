@@ -6,9 +6,8 @@ export async function SessionCheck() {
     console.log("test");
         const response = await CheckAuth('/api/auth/session');
         if (!response) {
-            // showNotification("Your session has expired.", "error");
             clearCookies();
-            openAuthModal();
+            return false;
         } else {
             return true;
         }
@@ -20,7 +19,6 @@ async function CheckAuth(url, options = {}) {
 
         if (response.status === 401) {
             console.log("test2");
-            // showNotification("Session expired. Please log in again.");
             logout();
             Home();
             return null;
@@ -30,7 +28,6 @@ async function CheckAuth(url, options = {}) {
         return response;
     } catch (error) {
         console.error("Request failed:", error);
-        // showNotification("Something went wrong. Please try again.");
     }
 }
 

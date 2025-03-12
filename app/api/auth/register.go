@@ -3,12 +3,14 @@ package auth
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"forum/app/config"
 	"forum/app/models"
 	"forum/app/utils"
 	"net/http"
 	"time"
 
+	"github.com/gofrs/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -17,16 +19,15 @@ const bcryptCost = 12
 func Register(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	var (
 		potentialUser models.UserCredentials
-		userID        int
+		userID        uuid.UUID
 	)
-
 	err := json.NewDecoder(req.Body).Decode(&potentialUser)
 	if err != nil {
 		config.Logger.Println("Register: Invalid request body:", err)
 		models.SendErrorResponse(resp, http.StatusBadRequest, "Error: Invalid Request Format")
 		return
 	}
-
+	fmt.Println("Register: ", potentialUser)
 	valid, message, status := potentialUser.ValidInfo(resp, db)
 	if !valid {
 		models.SendErrorResponse(resp, status, message)
@@ -52,19 +53,24 @@ func Register(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 		models.SendErrorResponse(resp, http.StatusInternalServerError, "Error: Internal Server Error")
 		return
 	}
+	userID, err = uuid.NewV6()
+	if err != nil {
+		config.Logger.Println("Register: Error generating UUID:", err)
+		models.SendErrorResponse(resp, http.StatusInternalServerError, "Error: Internal Server Error")
+		return
+	}
 
-	err = db.QueryRow(`
-		INSERT INTO users (username, email, password) 
-		VALUES (?, ?, ?)
-		RETURNING id`,
-		potentialUser.Username, potentialUser.Email, hashedPassword).Scan(&userID)
+	_, err = db.Exec(`
+	INSERT INTO users (id, username, firstname, lastname, gender, age, email, password) 
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+		userID, potentialUser.Username, potentialUser.Firstname, potentialUser.Lastname, potentialUser.Gender, potentialUser.Age, potentialUser.Email, hashedPassword)
 	if err != nil {
 		config.Logger.Println("Register: Error inserting user into DB:", err)
 		models.SendErrorResponse(resp, http.StatusInternalServerError, "Error: Internal Server Error")
 		return
 	}
 
-	sessionToken, err := utils.ManageSession(db, int(userID), potentialUser.Username)
+	sessionToken, err := utils.ManageSession(db, userID.String(), potentialUser.Username)
 	if err != nil {
 		config.Logger.Println("Register: Error managing session:", err)
 		models.SendErrorResponse(resp, http.StatusInternalServerError, "Error: Internal Server Error")
