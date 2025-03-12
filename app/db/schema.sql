@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS messages (
     content TEXT NOT NULL,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     delivered INTEGER DEFAULT 0,
-    FOREIGN KEY(sender) REFERENCES users(username),
-    FOREIGN KEY(receiver) REFERENCES users(username)
+    FOREIGN KEY(sender) REFERENCES users(id),
+    FOREIGN KEY(receiver) REFERENCES users(id)
 );
 
 -- Posts table

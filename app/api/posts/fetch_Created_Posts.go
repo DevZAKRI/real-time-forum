@@ -30,7 +30,7 @@ func fetchUserCreatedPosts(posts *[]models.Post, username string, db *sql.DB) er
 	return nil
 }
 
-func fetchUserLikedPosts(posts *[]models.Post, userID int, db *sql.DB) error {
+func fetchUserLikedPosts(posts *[]models.Post, userID string, db *sql.DB) error {
 	query := `
 		SELECT posts.username, 
     		posts.id AS post_id, 

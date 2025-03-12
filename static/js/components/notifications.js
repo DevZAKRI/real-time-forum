@@ -1,6 +1,7 @@
 export function showNotification(message, type = 'error') {
     const notification = document.createElement('div');
     notification.id = 'notification-container';
+    notification.classList.add('notification-container');
     notification.textContent = message;
     notification.classList.add('show');
 

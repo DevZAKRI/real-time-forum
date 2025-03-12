@@ -71,16 +71,16 @@ func LoggedInUser(db *sql.DB, token string) bool {
 	return isLoggedIn
 }
 
-func GetUsernameByToken(token string, db *sql.DB) (int, string, error) {
+func GetUsernameByToken(token string, db *sql.DB) (string, string, error) {
 
 	var username string
-	var userID int
+	var userID string
 	err := db.QueryRow("SELECT user_id, username FROM sessions WHERE session_token = ?", token).Scan(&userID, &username)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return 0, "", errors.New("invalid token")
+			return "", "", errors.New("invalid token")
 		}
-		return 0, "", errors.New("internal server error")
+		return "", "", errors.New("internal server error")
 	}
 
 	return userID, username, nil

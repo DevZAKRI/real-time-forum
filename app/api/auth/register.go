@@ -63,7 +63,7 @@ func Register(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	_, err = db.Exec(`
 	INSERT INTO users (id, username, firstname, lastname, gender, age, email, password) 
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-		userID, potentialUser.Username, potentialUser.Firstname, potentialUser.Lastname, potentialUser.Gender, potentialUser.Age, potentialUser.Email, hashedPassword)
+		userID.String(), potentialUser.Username, potentialUser.Firstname, potentialUser.Lastname, potentialUser.Gender, potentialUser.Age, potentialUser.Email, hashedPassword)
 	if err != nil {
 		config.Logger.Println("Register: Error inserting user into DB:", err)
 		models.SendErrorResponse(resp, http.StatusInternalServerError, "Error: Internal Server Error")
@@ -85,8 +85,8 @@ func Register(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 		Expires:  time.Now().Add(2 * time.Hour),
 	})
 
-	config.Logger.Println("Register: Successful registration for user:", potentialUser.Username, "User ID:", userID)
+	config.Logger.Println("Register: Successful registration for user:", potentialUser.Username, "UserID:", userID)
 
 	resp.WriteHeader(http.StatusCreated)
-
+	_ = json.NewEncoder(resp).Encode(map[string]string{"message": "Registration successful", "UserID": userID.String()})
 }

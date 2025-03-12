@@ -73,6 +73,6 @@ func Login(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	config.Logger.Println("Login successful: User:", username, " User ID:", userID)
 
 	resp.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(resp).Encode(map[string]string{"message": "Login successful"})
+	_ = json.NewEncoder(resp).Encode(map[string]string{"message": "Login successful", "UserID": userID})
 
 }

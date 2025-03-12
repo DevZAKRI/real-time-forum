@@ -43,7 +43,7 @@ func AddComment(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 	}
 
 	var username string
-	var userID int
+	var userID string
 	userID, username, err = utils.GetUsernameByToken(session_token, db)
 	if err != nil {
 		models.SendErrorResponse(resp, http.StatusInternalServerError, "Error: Internal Server Error. Try later")
