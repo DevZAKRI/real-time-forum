@@ -3,11 +3,11 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
-	"net/http"
-
 	"forum/app/config"
 	"forum/app/models"
 	"forum/app/utils"
+	"net/http"
+	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -30,7 +30,7 @@ func HandleConnections(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	id, userName, _ := utils.GetUsernameByToken(sessionToken, db)
 
 	models.ClientsLock.Lock()
-	models.Clients[userName] = append(models.Clients[userName], &models.Client{Conn: conn, UserID: id})
+	models.Clients[userName] = &models.Client{Conn: conn, UserID: id, LastSeen: time.Now()}
 	models.ClientsLock.Unlock()
 
 	config.Logger.Printf("User Connected: %s", userName)
