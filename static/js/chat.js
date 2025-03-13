@@ -9,6 +9,10 @@ export function Chat() {
             if (!usersContainer) {
                 usersContainer = document.createElement('div');
                 usersContainer.classList.add("users-container");
+                const closeButton = document.createElement('button');
+                closeButton.innerHTML = "✖";
+                closeButton.addEventListener('click', () => usersContainer.remove());
+                usersContainer.appendChild(closeButton);
 
                 const users = await GetUsers();
 

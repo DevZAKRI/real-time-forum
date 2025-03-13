@@ -1,6 +1,6 @@
 export let ws = null;
 import { showNotification } from "./components/notifications.js";
-import { createList } from "./users.js"
+import { createList, usersSet } from "./users.js"
 export function initializeWebSocket(userID) {
     if (ws && ws.readyState === WebSocket.OPEN) {
         console.log("WebSocket is already open");
@@ -29,7 +29,7 @@ export function initializeWebSocket(userID) {
                         messageElement.classList.add("received-message")
                         chatMessages.appendChild(messageElement);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                    } 
+                    }
                 } else {
                     console.log('New Message Recieved From ' + message.sender);
                     showNotification('New Message Recieved From ' + message.sender, "success");
@@ -41,8 +41,8 @@ export function initializeWebSocket(userID) {
                 if (statusElement) {
                     statusElement.textContent = message.status === 'online' ? '🟢' : '🔴';
                 } else {
-                    showNotification(`A wild ${message.user} has spawnd`, "success")
-                    createList()
+                    // showNotification(`A wild ${message.user} has spawned`, "success");
+                    createList();
                 }
                 break;
 
