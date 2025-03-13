@@ -54,8 +54,6 @@ html {
   margin-top: 80px;
 }
 
-
-/* Left Sidebar */
 .left-sidebar {
   background: white;
   border-radius: 12px;
@@ -109,7 +107,6 @@ html {
   background: #1d4ed8;
 }
 
-/* Main Content - Posts */
 .main-content {
   background: transparent;
   border-radius: 12px;
@@ -217,7 +214,6 @@ html {
 }
 
 
-/* Comments Section */
 .comments-section {
   padding: 20px;
   background-color: #f9f9f9;
@@ -225,7 +221,6 @@ html {
   border-radius: 8px;
   margin-top: 20px;
   display: none;
-  /* Initially hidden */
 }
 
 .comments-header {
@@ -287,7 +282,6 @@ html {
   flex-direction: column;
   list-style: none;
   gap: 6px;
-  /* margin-top: 20px; */
 }
 
 .comment-item {
@@ -320,7 +314,6 @@ html {
 
 .comment-footer button:hover {
   color: #007bff;
-  /* Hover color */
 }
 
 .comment-footer i {
@@ -328,7 +321,6 @@ html {
   font-size: 18px;
 }
 
-/* Toggle Comments Button */
 .toggle-comments {
   padding: 10px 15px;
   background-color: #f8f9fa;
@@ -346,7 +338,6 @@ html {
   font-weight: bold;
 }
 
-/* Right Sidebar */
 .right-sidebar {
   background: white;
   border-radius: 12px;
@@ -417,7 +408,6 @@ html {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Publisher Info */
 .publisher-info {
   display: flex;
   align-items: center;
@@ -439,7 +429,6 @@ html {
   color: #3a3a3a;
 }
 
-/* Input Fields */
 .create-post-form input[type="text"],
 .create-post-form textarea {
   min-width: 100%;
@@ -461,7 +450,6 @@ html {
   box-shadow: 0 0 4px rgba(0, 121, 211, 0.2);
 }
 
-/* Categories Checkbox Group */
 .checkbox-group {
   display: grid;
   padding: 8px;
@@ -482,7 +470,6 @@ html {
   cursor: pointer;
 }
 
-/* Submit Button */
 #create-post-button {
   background-color: #0079d3;
   color: #ffffff;
@@ -669,7 +656,33 @@ noscript h1 {
   padding: 8px;
   background: #f1f1f1;
   border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sent-message {
+  align-self: flex-end;
+  background: #007bff;
+  color: white;
+  padding: 8px;
   margin: 5px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.received-message {
+  align-self: flex-start;
+  background: #e5e5e5;
+  color: #333;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 
 .chat-box-input {
@@ -681,6 +694,32 @@ noscript h1 {
   resize: vertical;
   min-height: 50px;
   max-height: 50px;
+}
+
+#users-list {
+  list-style: none;
+  padding: 10px;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 5px;
+  background: lightgray;
+  border-radius: 6px;
+}
+
+
+.user-name {
+  font-size: 16px;
+  font-weight: 900;
+  color: #333;
+}
+
+.user-item span[id^="Status-"] {
+  font-size: 18px;
 }
 
 @media (max-width: 1023px) {

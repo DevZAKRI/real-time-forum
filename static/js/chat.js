@@ -2,7 +2,7 @@ import { showNotification } from "./components/notifications.js";
 import { GetUsers } from "./users.js";
 import { ws } from "./ws.js";
 export function Chat() {
-const usersBtn = document.getElementById("users-btn");
+    const usersBtn = document.getElementById("users-btn");
     if (usersBtn) {
         usersBtn.addEventListener('click', async () => {
             let usersContainer = document.querySelector('.users-container');
@@ -24,13 +24,18 @@ const usersBtn = document.getElementById("users-btn");
                 usersContainer.remove();
             }
         });
-}
+    }
 }
 
 export function openChat(user) {
     const usersContainer = document.querySelector('.users-container');
     usersContainer.remove()
     if (document.getElementById(`chat-${user.username}`)) return;
+
+    const existingChatBox = document.querySelector('.chat-box');
+    if (existingChatBox) {
+        existingChatBox.remove();
+    }
 
     const chatBox = document.createElement('div');
     chatBox.classList.add("chat-box");
@@ -93,8 +98,10 @@ export function sendingMessage(user) {
 
     const chatMessages = document.querySelector(`#chat-${user.username} .chat-box-messages`);
     const messageElement = document.createElement('p');
-    messageElement.textContent = `You: ${message}`;
+    messageElement.textContent = `${message}`;
+    messageElement.classList.add('sent-message')
     chatMessages.appendChild(messageElement);
     console.log(message);
     messageInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight
 }

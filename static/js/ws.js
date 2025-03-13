@@ -26,6 +26,7 @@ export function initializeWebSocket(userID) {
                     if (message.sender !== message.receiver) {
                         const messageElement = document.createElement('p');
                         messageElement.textContent = `${message.sender}: ${message.content}`;
+                        messageElement.classList.add("received-message")
                         chatMessages.appendChild(messageElement);
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     } 
