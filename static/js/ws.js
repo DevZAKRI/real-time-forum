@@ -1,6 +1,6 @@
 export let ws = null;
 import { showNotification } from "./components/notifications.js";
-
+import { createList } from "./users.js"
 export function initializeWebSocket(userID) {
     if (ws && ws.readyState === WebSocket.OPEN) {
         console.log("WebSocket is already open");
@@ -40,6 +40,9 @@ export function initializeWebSocket(userID) {
                 const statusElement = document.getElementById(`Status-${message.user}`);
                 if (statusElement) {
                     statusElement.textContent = message.status === 'online' ? '🟢' : '🔴';
+                } else {
+                    showNotification(`A wild ${message.user} has spawnd`, "success")
+                    createList()
                 }
                 break;
 

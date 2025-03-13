@@ -17,18 +17,21 @@ export async function GetUsers() {
         });
 }
 
-
+export const usersSet = new Set()
 export async function createList() {
     const usersList = document.getElementById('users-list');
+    usersList.innerHTML = ''
     const users = await GetUsers();
+    
     console.log(users);
     users.forEach((user) => {
+        usersSet.add(user.username)
         let statusDot = user.isOnline
         ? '🟢'
         : '🔴';
         
         const userElement = document.createElement('li');
-        userElement.classList.add('user-item');
+        userElement.classList.add(`user-item-${user.username}`);
         userElement.innerHTML = `
             <span class="user-name">${user.username}</span>
             <span id="Status-${user.username}">${statusDot}</span>

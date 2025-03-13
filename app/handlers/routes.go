@@ -19,5 +19,5 @@ func RegisterRoutes(DB *sql.DB) {
 	})
 	http.HandleFunc("/api/", utils.RateLimitMiddleware(func(w http.ResponseWriter, r *http.Request) {
 		Router(w, r, DB)
-	}, 5, 1*time.Second))
+	}, 50, 1*time.Second))
 }
