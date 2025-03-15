@@ -1,4 +1,5 @@
 import { showNotification } from "./components/notifications.js";
+import { setMessage } from "./components/setMessage.js";
 import { GetUsers } from "./users.js";
 import { ws } from "./ws.js";
 export function Chat() {
@@ -78,7 +79,7 @@ export function openChat(user) {
     chatBox.appendChild(chatMessages);
     chatBox.appendChild(chatInput);
     chatBox.appendChild(sendBtn);
-
+    GetMessages(user.username, chatMessages)
     document.body.appendChild(chatBox);
 }
 
@@ -102,10 +103,44 @@ export function sendingMessage(user) {
 
     const chatMessages = document.querySelector(`#chat-${user.username} .chat-box-messages`);
     const messageElement = document.createElement('p');
+    const time = document.createElement('sub')
+    const date = new Date(messageData.timestamp);
+    const formattedTime = date.toLocaleString();
+    time.textContent = formattedTime
     messageElement.textContent = `${message}`;
     messageElement.classList.add('sent-message')
+    time.classList.add('sent-time')
     chatMessages.appendChild(messageElement);
-    console.log(message);
+    chatMessages.appendChild(time)
     messageInput.value = '';
     chatMessages.scrollTop = chatMessages.scrollHeight
+}
+
+
+export function GetMessages(receiver, chatContainer) {
+    const senderID = localStorage.getItem("xyz")
+    console.log(senderID);
+    fetch(`/api/chat/messages?sender=${senderID}&receiver=${receiver}`, { credentials: "include" })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Problem fetching messages: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(messages => {
+                console.log('Old messages:', messages);
+                if (!messages) {
+                    const messageElement = document.createElement('p');
+                    messageElement.textContent = `No messages yet!`;
+                    chatContainer.appendChild(messageElement);
+                    return;
+                }
+                messages.forEach(msg => {
+                    setMessage(chatContainer, msg, receiver)
+                });
+    
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            })
+            .catch(error => console.error('Problem fetching messages:', error));
+    
 }

@@ -22,7 +22,7 @@ func SendErrorResponse(resp http.ResponseWriter, statusCode int, message string)
 			StatusCode: statusCode,
 			Message:    message,
 		}
-		
+
 		config.Templates.ExecuteTemplate(resp, "404.html", data)
 		return
 	} else {

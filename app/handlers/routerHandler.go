@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"forum/app/api/auth"
+	"forum/app/api/chat"
 	"forum/app/api/comments"
 	"forum/app/api/posts"
 	"forum/app/api/reactions"
@@ -53,6 +54,13 @@ func Router(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 			return
 		}
 		users.GetUsers(resp, req, db)
+		return
+	case "chat":
+		if req.Method != http.MethodGet {
+			models.SendErrorResponse(resp, http.StatusMethodNotAllowed, "Error: Method Not Allowed")
+			return
+		}
+		chat.GetMessages(resp, req, db)
 		return
 	default:
 		models.SendErrorResponse(resp, http.StatusNotFound, "Page Not Found")

@@ -2,15 +2,13 @@ package models
 
 import (
 	"sync"
-	"time"
 
 	"github.com/gorilla/websocket"
 )
 
 type Client struct {
-	Conn     *websocket.Conn
-	UserID   string
-	LastSeen time.Time
+	Conn   *websocket.Conn
+	UserID string
 }
 
 var (

@@ -14,7 +14,7 @@ func GetMessages(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	rows, err := db.Query(`
 		SELECT sender, receiver, content, timestamp 
 		FROM messages 
-		WHERE (sender = ? AND receiver = ?) OR (sender = ? AND receiver = ?) 
+		WHERE (senderID = ? AND receiver = ?) OR (sender = ? AND receiverID = ?) 
 		ORDER BY timestamp ASC`,
 		sender, receiver, receiver, sender)
 	if err != nil {

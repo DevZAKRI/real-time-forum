@@ -1,5 +1,6 @@
 export let ws = null;
 import { showNotification } from "./components/notifications.js";
+import { setMessage } from "./components/setMessage.js";
 import { createList, usersSet } from "./users.js"
 export function initializeWebSocket(userID) {
     if (ws && ws.readyState === WebSocket.OPEN) {
@@ -24,10 +25,9 @@ export function initializeWebSocket(userID) {
 
                 if (chatMessages) {
                     if (message.sender !== message.receiver) {
-                        const messageElement = document.createElement('p');
-                        messageElement.textContent = `${message.sender}: ${message.content}`;
-                        messageElement.classList.add("received-message")
-                        chatMessages.appendChild(messageElement);
+                        console.log("WS:", message.sender, message.sender);
+                        
+                        setMessage(chatMessages, message, message.sender)
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
                 } else {

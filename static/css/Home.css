@@ -772,3 +772,18 @@ noscript h1 {
     font-size: 38px;
   }
 }
+
+
+sub {
+  font-size: 0.7rem;
+  /* bottom: -0.25em; */
+}
+
+.received-time {
+align-items: flex-start;
+}
+
+.sent-time {
+  align-self: flex-end;
+}
+

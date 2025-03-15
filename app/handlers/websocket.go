@@ -30,7 +30,7 @@ func HandleConnections(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	id, userName, _ := utils.GetUsernameByToken(sessionToken, db)
 
 	models.ClientsLock.Lock()
-	models.Clients[userName] = &models.Client{Conn: conn, UserID: id, LastSeen: time.Now()}
+	models.Clients[userName] = &models.Client{Conn: conn, UserID: id}
 	models.ClientsLock.Unlock()
 
 	config.Logger.Printf("User Connected: %s", userName)
@@ -80,6 +80,7 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 		config.Logger.Printf("Empty message from %s to %s", username, msg.Receiver)
 		return
 	}
+	// var msgTime time.Time
 	config.Logger.Printf("Message from %s to %s: %s", username, msg.Receiver, msg.Content)
 	msg.Type = "message"
 	_, err = db.Exec("INSERT INTO messages (sender, senderID, receiver, receiverID, content, timestamp, delivered) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -115,7 +116,7 @@ func deliverPendingMessages(userName string, db *sql.DB) {
 
 	for rows.Next() {
 		var msg models.Message
-		err := rows.Scan(&msg.Sender, &msg.SenderID, &msg.Receiver, &msg.ReceiverID, &msg.Content, &msg.Timestamp)
+		err := rows.Scan(&msg.Sender, &msg.SenderID, &msg.Receiver, &msg.ReceiverID, &msg.Content, time.Now())
 		if err != nil {
 			config.Logger.Printf("Error scanning pending message: %v", err)
 			continue
