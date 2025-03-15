@@ -3,12 +3,13 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"forum/app/config"
 	"forum/app/models"
 	"forum/app/utils"
 	"net/http"
-	"time"
 
+	"github.com/gofrs/uuid"
 	"github.com/gorilla/websocket"
 )
 
@@ -28,15 +29,15 @@ func HandleConnections(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 	sessionToken, _ := utils.GetSessionToken(r)
 	id, userName, _ := utils.GetUsernameByToken(sessionToken, db)
-
+	tabID, _ := uuid.NewV6()
 	models.ClientsLock.Lock()
-	models.Clients[userName] = &models.Client{Conn: conn, UserID: id}
+	models.Clients[userName] = append(models.Clients[userName], &models.Client{Conn: conn, UserID: id, TabID: tabID.String()})
 	models.ClientsLock.Unlock()
 
 	config.Logger.Printf("User Connected: %s", userName)
 
-	setStatus(userName, "online")
-	deliverPendingMessages(userName, db)
+	setStatus(userName, "online", tabID.String())
+	// deliverPendingMessages(userName, db)
 
 	for {
 		_, message, err := conn.ReadMessage()
@@ -46,22 +47,33 @@ func HandleConnections(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			} else {
 				config.Logger.Printf("Read Message Error: %v", err)
 			}
-			setStatus(userName, "offline")
 			break
 		}
 
-		handleMessage(message, userName, id, db)
+		handleMessage(message, userName, id, db, tabID.String())
 	}
 
 	models.ClientsLock.Lock()
-	delete(models.Clients, userName)
-	models.ClientsLock.Unlock()
+	newClientList := []*models.Client{}
+	for _, client := range models.Clients[userName] {
+		if client.TabID != tabID.String() {
+			newClientList = append(newClientList, client)
+		}
+	}
 
-	setStatus(userName, "offline")
+	if len(newClientList) > 0 {
+		models.Clients[userName] = newClientList
+	} else {
+		delete(models.Clients, userName)
+		setStatus(userName, "offline", tabID.String())
+	}
+
+	models.ClientsLock.Unlock()
+	setStatus(userName, "offline", tabID.String())
 	config.Logger.Printf("User Disconnected: %s", userName)
 }
 
-func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
+func handleMessage(msgData []byte, username string, UserID string, db *sql.DB, tabID string) {
 	var msg models.Message
 	err := json.Unmarshal(msgData, &msg)
 	if err != nil {
@@ -93,66 +105,90 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 	models.ClientsLock.Lock()
 	defer models.ClientsLock.Unlock()
 
-	if recipient, exists := models.Clients[msg.Receiver]; exists {
+	if _, exists := models.Clients[msg.Receiver]; exists {
 		jsonMessage, _ := json.Marshal(msg)
-		err := recipient.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
-		if err != nil {
-			config.Logger.Printf("Error sending message to recipient: %v", err)
-			return
-		} else {
-			config.Logger.Printf("Message delivered to %s", msg.Receiver)
-		}
-		db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", username, msg.Receiver)
-	}
-}
-
-func deliverPendingMessages(userName string, db *sql.DB) {
-	rows, err := db.Query("SELECT sender, senderID, receiver, receiverID, content, timestamp FROM messages WHERE receiver = ? AND delivered = 0", userName)
-	if err != nil {
-		config.Logger.Printf("Error fetching pending messages: %v", err)
-		return
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var msg models.Message
-		err := rows.Scan(&msg.Sender, &msg.SenderID, &msg.Receiver, &msg.ReceiverID, &msg.Content, time.Now())
-		if err != nil {
-			config.Logger.Printf("Error scanning pending message: %v", err)
-			continue
-		}
-		msg.Type = "message"
-		jsonMessage, _ := json.Marshal(msg)
-		models.ClientsLock.Lock()
-		if client, exists := models.Clients[msg.Receiver]; exists {
-			err := client.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+		for _, recipientTab := range models.Clients[msg.Receiver] {
+			err := recipientTab.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
 			if err != nil {
-				config.Logger.Printf("Error delivering pending message: %v", err)
+				config.Logger.Printf("Error sending message to recipient: %v", err)
+				return
+			} else {
+				config.Logger.Printf("Message delivered to %s", msg.Receiver)
 			}
 		}
-		models.ClientsLock.Unlock()
 
-		db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", msg.Sender, msg.Receiver)
+		db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", username, msg.Receiver)
+	}
+
+	for _, senderTab := range models.Clients[msg.Sender] {
+		// msg.Receiver = msg.Sender
+		fmt.Println("SenderTab: waaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+		jsonMessage, _ := json.Marshal(msg)
+		if senderTab.TabID != tabID {
+			err := senderTab.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+			if err != nil {
+				config.Logger.Printf("Error sending message to recipient: %v", err)
+				return
+			} else {
+				config.Logger.Printf("Message delivered to %s", msg.Receiver)
+			}
+		}
 	}
 }
 
-func setStatus(Username, status string) {
+// func deliverPendingMessages(userName string, db *sql.DB) {
+// 	rows, err := db.Query("SELECT sender, senderID, receiver, receiverID, content, timestamp FROM messages WHERE receiver = ? AND delivered = 0", userName)
+// 	if err != nil {
+// 		config.Logger.Printf("Error fetching pending messages: %v", err)
+// 		return
+// 	}
+// 	defer rows.Close()
+
+// 	for rows.Next() {
+// 		var msg models.Message
+// 		err := rows.Scan(&msg.Sender, &msg.SenderID, &msg.Receiver, &msg.ReceiverID, &msg.Content, &msg.Timestamp)
+// 		if err != nil {
+// 			config.Logger.Printf("Error scanning pending message: %v", err)
+// 			continue
+// 		}
+// 		msg.Type = "message"
+// 		jsonMessage, _ := json.Marshal(msg)
+// 		models.ClientsLock.Lock()
+// 		if _, exists := models.Clients[msg.Receiver]; exists {
+// 			for _, client := range models.Clients[msg.Receiver] {
+// 				err := client.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+// 				if err != nil {
+// 					config.Logger.Printf("Error delivering pending message: %v", err)
+// 				}
+// 			}
+
+// 		}
+// 		models.ClientsLock.Unlock()
+
+// 		db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", msg.Sender, msg.Receiver)
+// 	}
+// }
+
+func setStatus(Username, status, tabID string) {
 	models.ClientsLock.Lock()
 	defer models.ClientsLock.Unlock()
-
 	statusMsg := map[string]string{
 		"type":   "status",
 		"user":   Username,
 		"status": status,
+		"tabID":  tabID,
 	}
 
 	jsonMsg, _ := json.Marshal(statusMsg)
 
 	for _, client := range models.Clients {
-		err := client.Conn.WriteMessage(websocket.TextMessage, jsonMsg)
-		if err != nil {
-			config.Logger.Printf("Error broadcasting status update: %v", err)
+		for _, tab := range client {
+			err := tab.Conn.WriteMessage(websocket.TextMessage, jsonMsg)
+			if err != nil {
+				config.Logger.Printf("Error broadcasting status update: %v", err)
+			}
 		}
+
 	}
 	config.Logger.Printf("User %s is now %s", Username, status)
 }

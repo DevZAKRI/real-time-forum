@@ -9,7 +9,7 @@ export function initializeWebSocket(userID) {
     }
 
     ws = new WebSocket(`ws://localhost:8080/ws?userID=${userID}`);
-
+    
     ws.onopen = () => {
         console.log("WebSocket connection opened");
     };
@@ -22,11 +22,11 @@ export function initializeWebSocket(userID) {
             case 'message':
                 const chatBox = document.getElementById(`chat-${message.sender}`);
                 const chatMessages = chatBox ? chatBox.querySelector('.chat-box-messages') : null;
-
+            console.log(message)
+            console.log(chatMessages)
                 if (chatMessages) {
                     if (message.sender !== message.receiver) {
                         console.log("WS:", message.sender, message.sender);
-                        
                         setMessage(chatMessages, message, message.sender)
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
@@ -37,6 +37,8 @@ export function initializeWebSocket(userID) {
                 break;
 
             case 'status':
+                const tabId = sessionStorage.getItem("tabId") || message.tabID;
+                sessionStorage.setItem("tabId", tabId);
                 const statusElement = document.getElementById(`Status-${message.user}`);
                 if (statusElement) {
                     statusElement.textContent = message.status === 'online' ? '🟢' : '🔴';
