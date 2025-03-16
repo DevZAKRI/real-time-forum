@@ -36,6 +36,22 @@ export function initializeWebSocket(userID) {
                 }
                 break;
 
+            case 'typing':
+                const typingChatBox = document.getElementById(`chat-${message.sender}`)
+                if (typingChatBox) {
+                    const typingInProgress = typingChatBox.querySelector('.typing')
+                    typingInProgress.style.display = "flex"
+                }
+                break
+
+            case 'stopped_typing':
+                const stoppedTypingChatBox = document.getElementById(`chat-${message.sender}`)
+                if (stoppedTypingChatBox) {
+                    const typingInProgress = stoppedTypingChatBox.querySelector('.typing')
+                    typingInProgress.style.display = "none"
+                }
+                break
+
             case 'status':
                 const statusElement = document.getElementById(`Status-${message.user}`);
                 if (statusElement) {

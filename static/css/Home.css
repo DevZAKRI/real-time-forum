@@ -626,14 +626,24 @@ noscript h1 {
 
 .chat-box-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   background: #007bff;
   padding: 8px;
   border-radius: 6px 6px 0 0;
   color: white;
   font-weight: bold;
   font-size: 16px;
+}
+
+.name-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.typing {
+  font-size: 10px;
+  font-weight: 400;
 }
 
 .chat-box-header button {
