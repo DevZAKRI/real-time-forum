@@ -732,6 +732,32 @@ noscript h1 {
   font-size: 18px;
 }
 
+sub {
+  font-size: 0.7rem;
+  /* bottom: -0.25em; */
+}
+
+.received-time {
+align-items: flex-start;
+}
+
+.sent-time {
+  align-self: flex-end;
+}
+
+
+@keyframes typing {
+  0% { content: ".";}
+  33% { content: "..";}
+  66% { content: "...";}
+  /* 100% { content: "...";} */
+}
+
+.typing::after {
+  content: "";
+  animation: typing 1s infinite steps(1);
+}
+
 @media (max-width: 1023px) {
   .container {
     display: flex;
@@ -782,18 +808,3 @@ noscript h1 {
     font-size: 38px;
   }
 }
-
-
-sub {
-  font-size: 0.7rem;
-  /* bottom: -0.25em; */
-}
-
-.received-time {
-align-items: flex-start;
-}
-
-.sent-time {
-  align-self: flex-end;
-}
-

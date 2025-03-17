@@ -65,7 +65,7 @@ export function openChat(user) {
     const typingDiv = document.createElement('div')
     const typingInProgress = document.createElement('sub')
     typingInProgress.classList.add("typing")
-    typingInProgress.textContent = `${user.username} is typing...`
+    typingInProgress.textContent = `${user.username} is typing`
     typingInProgress.style.display = "none"
 
     typingDiv.appendChild(typingInProgress)
