@@ -26,7 +26,6 @@ export function initializeWebSocket(userID) {
             console.log(chatMessages)
                 if (chatMessages) {
                     if (message.sender !== message.receiver) {
-                        console.log("WS:", message.sender, message.sender);
                         setMessage(chatMessages, message, message.sender)
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
