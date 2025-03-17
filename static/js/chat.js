@@ -57,6 +57,11 @@ export function openChat(user) {
 
     const chatMessages = document.createElement('div');
     chatMessages.classList.add("chat-box-messages");
+    chatMessages.addEventListener('scroll', () => {
+        if (chatMessages.scrollTop === 0) {
+            GetMessages(user.username, chatMessages, true)
+        }
+    })
 
     const chatInput = document.createElement('textarea');
     chatInput.classList.add("chat-box-input");
@@ -117,10 +122,12 @@ export function sendingMessage(user) {
 }
 
 
-export function GetMessages(receiver, chatContainer) {
+export let offset = 0
+export function GetMessages(receiver, chatContainer, scroll) {
+    // const limit = 10
     const senderID = localStorage.getItem("xyz")
     console.log(senderID);
-    fetch(`/api/chat/messages?sender=${senderID}&receiver=${receiver}`, { credentials: "include" })
+    fetch(`/api/chat/messages?sender=${senderID}&receiver=${receiver}&offset=${offset}`, { credentials: "include" })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Problem fetching messages: ' + response.status);
@@ -136,11 +143,28 @@ export function GetMessages(receiver, chatContainer) {
                     return;
                 }
                 messages.forEach(msg => {
-                    setMessage(chatContainer, msg, receiver)
+                    setMessage(chatContainer, msg, receiver, true)
+                    offset += 1
                 });
     
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                if (!scroll) {
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                } else {
+                }
             })
             .catch(error => console.error('Problem fetching messages:', error));
     
+}
+
+const throttle = (func, num) => {
+    let wait = false;
+    return (...args) => {
+        if (!wait) {
+            func(...args)
+            wait = true
+        }
+        setTimeout(() => {
+            wait = false
+        }, num)
+    }
 }
