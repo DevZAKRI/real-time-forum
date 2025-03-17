@@ -103,8 +103,10 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB, t
 
 	models.ClientsLock.Lock()
 	defer models.ClientsLock.Unlock()
-	jsonMessage, _ := json.Marshal(msg)
+
 	if _, exists := models.Clients[msg.Receiver]; exists {
+		msg.Own = false
+		jsonMessage, _ := json.Marshal(msg)
 		for _, recipientTab := range models.Clients[msg.Receiver] {
 			err := recipientTab.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
 			if err != nil {
@@ -119,11 +121,14 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB, t
 	}
 
 	if _, exists := models.Clients[msg.Sender]; exists {
+		msg.Own = true
+		jsonMessage, _ := json.Marshal(msg)
 		for _, senderTab := range models.Clients[msg.Sender] {
 			err := senderTab.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
 			if err != nil {
 				config.Logger.Printf("Error sending message to sender: %v", err)
 			}
+			config.Logger.Println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
 		}
 	}
 }

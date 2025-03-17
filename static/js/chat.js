@@ -101,19 +101,19 @@ export function sendingMessage(user) {
 
     ws.send(JSON.stringify(messageData));
 
-    const chatMessages = document.querySelector(`#chat-${user.username} .chat-box-messages`);
-    const messageElement = document.createElement('p');
-    const time = document.createElement('sub')
-    const date = new Date(messageData.timestamp);
-    const formattedTime = date.toLocaleString();
-    time.textContent = formattedTime
-    messageElement.textContent = `${message}`;
-    messageElement.classList.add('sent-message')
-    time.classList.add('sent-time')
-    chatMessages.appendChild(messageElement);
-    chatMessages.appendChild(time)
+    // const chatMessages = document.querySelector(`#chat-${user.username} .chat-box-messages`);
+    // const messageElement = document.createElement('p');
+    // const time = document.createElement('sub')
+    // const date = new Date(messageData.timestamp);
+    // const formattedTime = date.toLocaleString();
+    // time.textContent = formattedTime
+    // messageElement.textContent = `${message}`;
+    // messageElement.classList.add('sent-message')
+    // time.classList.add('sent-time')
+    // chatMessages.appendChild(messageElement);
+    // chatMessages.appendChild(time)
     messageInput.value = '';
-    chatMessages.scrollTop = chatMessages.scrollHeight
+    // chatMessages.scrollTop = chatMessages.scrollHeight
 }
 
 
