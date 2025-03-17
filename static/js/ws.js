@@ -38,8 +38,10 @@ export function initializeWebSocket(userID) {
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
                 } else {
+                    if (!message.own){
                     console.log('X: New Message Recieved From ' + message.sender);
                     showNotification('New Message Recieved From ' + message.sender, "success");
+                    }
                 }
                 break;
 
