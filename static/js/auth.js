@@ -1,3 +1,4 @@
+import { setBody } from "./body.js";
 import { showNotification } from "./components/notifications.js";
 import { initializeWebSocket } from "./ws.js";
 
@@ -164,7 +165,8 @@ export function auth() {
           initializeWebSocket(localStorage.getItem('xyz'))
           const message = isLogin ? "Login successful" : "Registration successful";
           showNotification(message, "success");
-          window.location.reload();
+          closeAuthModal()
+          setBody()
           logout();
         } else {
           const error = await response.json();
@@ -181,26 +183,37 @@ export function auth() {
 
 
 export function logout() {
-  const logoutBtn = document.getElementById("logout-btn")
-  logoutBtn?.addEventListener("click", async (e) => {
+  let logoutBtn = document.getElementById("logout-btn");
+
+  if (logoutBtn) {
+    const newLogoutBtn = logoutBtn.cloneNode(true);
+    logoutBtn.replaceWith(newLogoutBtn);
+    logoutBtn = newLogoutBtn; 
+  } else {
+    return; 
+  }
+
+  logoutBtn.addEventListener("click", async (e) => {
     try {
-      const response = await fetch("/api/auth/logout",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-        }
-      );
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
 
       if (response.ok) {
         showNotification("Logout successful", "success");
-        window.location.reload();
+        document.querySelector(".DynamicBody")?.remove();
+        document.getElementById("authModalOverlay")?.remove();
+        createAuthModal();
+        openAuthModal();
       }
     } catch (error) {
       showNotification("An error occurred", "error");
     }
-  })
+  });
 }
+
 
