@@ -3,7 +3,7 @@
 @import url("./notification.css");
 @import url("./postInteraction.css");
 @import url("./comment.css");
-
+@import url("./404.css");
 * {
   margin: 0;
   padding: 0;

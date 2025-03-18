@@ -1,4 +1,5 @@
-body {
+
+body .ERROR{
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     display: flex;
@@ -8,28 +9,28 @@ body {
     margin: 0;
 }
 
-.container {
+.ErrorContainer {
     text-align: center;
     background-color: #fff;
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 90%; /* Ensures the container doesn't overflow on small screens */
+    max-width: 90%; 
 }
 
-h1 {
+.ErrorContainer h1 {
     font-size: 100px;
     margin: 0;
     color: #333;
 }
 
-p {
+.ErrorContainer p {
     font-size: 20px;
     color: #555;
     margin: 10px 0;
 }
 
-.button {
+.ErrorContainer .button {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
@@ -41,39 +42,39 @@ p {
     transition: background-color 0.3s ease;
 }
 
-.button:hover {
+.ErrorContainer .button:hover {
     background-color: #0056b3;
 }
 
 @media (max-width: 768px) {
-    h1 {
+    .ErrorContainer h1 {
         font-size: 80px; 
     }
 
-    p {
+    .ErrorContainer p {
         font-size: 18px; 
     }
 
-    .container {
+    .ErrorContainer {
         padding: 30px; 
     }
 }
 
 @media (max-width: 480px) {
-    h1 {
+    .ErrorContainer h1 {
         font-size: 60px; 
     }
 
-    p {
+    .ErrorContainer p {
         font-size: 16px; 
     }
 
-    .button {
+    .ErrorContainer .button {
         font-size: 14px;
         padding: 8px 16px; 
     }
 
-    .container {
+    .ErrorContainer {
         padding: 20px;
     }
 }

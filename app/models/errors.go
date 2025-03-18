@@ -16,14 +16,16 @@ func SendErrorResponse(resp http.ResponseWriter, statusCode int, message string)
 	if statusCode == 404 || statusCode == 405 || statusCode == 403 {
 		config.Logger.Println("Rendering ", statusCode, " section in home template")
 		data := struct {
+			IsError    bool
 			StatusCode int
 			Message    string
 		}{
+			IsError:    true,
 			StatusCode: statusCode,
 			Message:    message,
 		}
 
-		config.Templates.ExecuteTemplate(resp, "404.html", data)
+		config.Templates.ExecuteTemplate(resp, "home.html", data)
 		return
 	} else {
 		resp.Header().Set("Content-Type", "application/json")
@@ -33,4 +35,10 @@ func SendErrorResponse(resp http.ResponseWriter, statusCode int, message string)
 		json.NewEncoder(resp).Encode(jsonResponse)
 	}
 
+}
+
+func PreventCaching(w http.ResponseWriter) {
+	w.Header().Set("Cache-Control", "no-store, no-cache, must-revalidate")
+	w.Header().Set("Pragma", "no-cache")
+	w.Header().Set("Expires", "0")
 }

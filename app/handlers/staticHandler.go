@@ -30,5 +30,6 @@ func Static(resp http.ResponseWriter, req *http.Request) {
 		models.SendErrorResponse(resp, http.StatusForbidden, "Access Forbidden")
 		return
 	}
+	models.PreventCaching(resp)
 	http.ServeFile(resp, req, req.URL.Path[1:])
 }
