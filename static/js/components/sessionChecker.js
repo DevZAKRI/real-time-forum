@@ -3,13 +3,11 @@ import { initializeWebSocket } from '../ws.js';
 
 // Description: This file contains the code to check if the user is logged in or not.
 export async function SessionCheck() {
-    console.log("test");
         const response = await CheckAuth('/api/auth/session');
         if (!response) {
             clearCookies();
             return false;
         } else {
-            console.log("OOOH");
             initializeWebSocket(localStorage.getItem('xyz'));
             return true;
         }

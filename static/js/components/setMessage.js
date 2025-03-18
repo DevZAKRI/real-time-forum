@@ -8,7 +8,6 @@ export function setMessage(chatContainer, msg, receiver, scroll) {
     const formattedTime = date.toLocaleString();
     time.textContent = formattedTime
     messageElement.textContent = `${msg.sender}: ${msg.content}.`;
-    console.log(receiver, msg.sender);
 
     if (receiver === msg.sender) {
         messageElement.classList.add("received-message")

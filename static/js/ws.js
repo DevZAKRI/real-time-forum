@@ -49,6 +49,8 @@ export function initializeWebSocket(userID) {
                 const tabId = sessionStorage.getItem("tabId") || message.tabID;
                 sessionStorage.setItem("tabId", tabId);
                 const statusElement = document.getElementById(`Status-${message.user}`);
+                console.log(statusElement);
+                
                 if (statusElement) {
                     statusElement.textContent = message.status === 'online' ? '🟢' : '🔴';
                 } else {

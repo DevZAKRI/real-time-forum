@@ -2,6 +2,7 @@ import { showNotification } from "./components/notifications.js";
 import { setMessage } from "./components/setMessage.js";
 import { GetUsers } from "./users.js";
 import { ws } from "./ws.js";
+
 export function Chat() {
     const usersBtn = document.getElementById("users-btn");
     if (usersBtn) {
@@ -32,6 +33,8 @@ export function Chat() {
     }
 }
 
+export let offsetMap = {};
+
 export function openChat(user) {
     const usersContainer = document.querySelector('.users-container');
     usersContainer.remove()
@@ -40,6 +43,10 @@ export function openChat(user) {
     const existingChatBox = document.querySelector('.chat-box');
     if (existingChatBox) {
         existingChatBox.remove();
+    }
+
+    if (!offsetMap[user.username]) {
+        offsetMap[user.username] = 0;
     }
 
     const chatBox = document.createElement('div');
@@ -57,9 +64,14 @@ export function openChat(user) {
 
     const chatMessages = document.createElement('div');
     chatMessages.classList.add("chat-box-messages");
+
+    const throttledGetMessages = throttle((user) => {
+        GetMessages(user.username, chatMessages, true);
+    }, 500);
+
     chatMessages.addEventListener('scroll', () => {
         if (chatMessages.scrollTop === 0) {
-            GetMessages(user.username, chatMessages, true)
+            throttledGetMessages(user)
         }
     })
 
@@ -84,7 +96,7 @@ export function openChat(user) {
     chatBox.appendChild(chatMessages);
     chatBox.appendChild(chatInput);
     chatBox.appendChild(sendBtn);
-    GetMessages(user.username, chatMessages)
+    GetMessages(user.username, chatMessages, false)
     document.body.appendChild(chatBox);
 }
 
@@ -105,31 +117,16 @@ export function sendingMessage(user) {
     };
 
     ws.send(JSON.stringify(messageData));
-
-    // const chatMessages = document.querySelector(`#chat-${user.username} .chat-box-messages`);
-    // const messageElement = document.createElement('p');
-    // const time = document.createElement('sub')
-    // const date = new Date(messageData.timestamp);
-    // const formattedTime = date.toLocaleString();
-    // time.textContent = formattedTime
-    // messageElement.textContent = `${message}`;
-    // messageElement.classList.add('sent-message')
-    // time.classList.add('sent-time')
-    // chatMessages.appendChild(messageElement);
-    // chatMessages.appendChild(time)
     messageInput.value = '';
-    // chatMessages.scrollTop = chatMessages.scrollHeight
 }
 
-
-export let offset = 0
 export function GetMessages(receiver, chatContainer, scroll) {
-    // const limit = 10
     const senderID = localStorage.getItem("xyz")
     const scrollPosition = chatContainer.scrollTop;
     const oldScrollHeight = chatContainer.scrollHeight;
-    console.log(senderID);
-    fetch(`/api/chat/messages?sender=${senderID}&receiver=${receiver}&offset=${offset}`, { credentials: "include" })
+    const currentOffset = offsetMap[receiver] || 0;
+
+    fetch(`/api/chat/messages?sender=${senderID}&receiver=${receiver}&offset=${currentOffset}`, { credentials: "include" })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Problem fetching messages: ' + response.status);
@@ -137,22 +134,16 @@ export function GetMessages(receiver, chatContainer, scroll) {
             return response.json();
         })
         .then(messages => {
-            console.log('Old messages:', messages);
             if (!messages) {
-                const messageElement = document.createElement('p');
-                messageElement.textContent = `No messages yet!`;
-                chatContainer.appendChild(messageElement);
                 return;
             }
             messages.forEach(msg => {
                 setMessage(chatContainer, msg, receiver, true)
-                offset += 1
+                offsetMap[receiver] = (offsetMap[receiver] || 0) + 1
             });
 
             if (!scroll) {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
-                console.log(chatContainer.scrollTop);
-                
             } else {
                 const newScrollHeight = chatContainer.scrollHeight;
                 const scrollHeightDiff = newScrollHeight - oldScrollHeight;
