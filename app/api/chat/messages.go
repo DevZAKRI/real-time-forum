@@ -11,12 +11,16 @@ func GetMessages(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	sender := r.URL.Query().Get("sender")
 	receiver := r.URL.Query().Get("receiver")
 
+	limit := 10
+	offset := r.URL.Query().Get("offset")
+
 	rows, err := db.Query(`
 		SELECT sender, receiver, content, timestamp 
 		FROM messages 
 		WHERE (senderID = ? AND receiver = ?) OR (sender = ? AND receiverID = ?) 
-		ORDER BY timestamp ASC`,
-		sender, receiver, receiver, sender)
+		ORDER BY timestamp DESC
+		LIMIT ? OFFSET ?`,
+		sender, receiver, receiver, sender, limit, offset)
 	if err != nil {
 		http.Error(w, "Failed to fetch messages", http.StatusInternalServerError)
 		return
