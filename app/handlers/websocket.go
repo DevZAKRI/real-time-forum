@@ -104,6 +104,16 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 		}
 		db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", username, msg.Receiver)
 	}
+
+	if SenderOWN, exists := models.Clients[msg.Sender]; exists {
+		msg.Own = true
+		jsonMessage, _ := json.Marshal(msg)
+		err := SenderOWN.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+		if err != nil {
+			config.Logger.Printf("Error sending message to sender: %v", err)
+		}
+		config.Logger.Println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+	}
 }
 
 func deliverPendingMessages(userName string, db *sql.DB) {

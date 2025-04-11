@@ -4,8 +4,9 @@ import { setMessage } from "./components/setMessage.js";
 import { createList, usersSet } from "./users.js"
 export function initializeWebSocket(userID) {
     if (ws && ws.readyState === WebSocket.OPEN) {
-        console.log("WebSocket is already open");
-        return;
+        closedWs();
+        ws = null;
+        console.log("WebSocket connection closed");
     }
 
     ws = new WebSocket(`ws://localhost:8080/ws?userID=${userID}`);
@@ -20,24 +21,35 @@ export function initializeWebSocket(userID) {
 
         switch (message.type) {
             case 'message':
-                const chatBox = document.getElementById(`chat-${message.sender}`);
+                if (!message.own) {
+                  var chatBox = document.getElementById(`chat-${message.sender}`);  
+                } else {
+                    var chatBox = document.getElementById(`chat-${message.receiver}`);  
+                }
+                
                 const chatMessages = chatBox ? chatBox.querySelector('.chat-box-messages') : null;
-
+                console.log(message)
+                console.log(chatMessages, message.sender)
                 if (chatMessages) {
-                    if (message.sender !== message.receiver) {
-                        console.log("WS:", message.sender, message.sender);
-                        
+                    if (message.sender !== message.receiver && !message.own) {
                         setMessage(chatMessages, message, message.sender)
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    } else if (message.own) {
+                        setMessage(chatMessages, message, message.receiver)
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
                 } else {
-                    console.log('New Message Recieved From ' + message.sender);
+                    if (!message.own){
+                    console.log('X: New Message Recieved From ' + message.sender);
                     showNotification('New Message Recieved From ' + message.sender, "success");
+                    }
                 }
                 break;
 
             case 'status':
                 const statusElement = document.getElementById(`Status-${message.user}`);
+                console.log(statusElement);
+                
                 if (statusElement) {
                     statusElement.textContent = message.status === 'online' ? '🟢' : '🔴';
                 } else {

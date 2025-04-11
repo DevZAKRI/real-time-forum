@@ -1,6 +1,23 @@
 import { openAuthModal } from "./auth.js";
 import { Home } from "./Home.js";
 import { SessionCheck } from "./components/sessionChecker.js";
+import { initializeWebSocket, closedWs } from "./ws.js";
+
+
+document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "hidden") {
+      const chatBox = document.querySelector('.chat-box')
+      if (chatBox) {
+        chatBox.remove();
+        console.log("WebSocket connection closed");
+        console.log("Chat Box Removed");
+      }
+      closedWs();
+    } else if (document.visibilityState === "visible") {
+        initializeWebSocket(localStorage.getItem("xyz"));
+        console.log("WebSocket connection opened");
+    }
+  });
 
 document.addEventListener("DOMContentLoaded", async () => {
     const isLoggedIn = await SessionCheck();

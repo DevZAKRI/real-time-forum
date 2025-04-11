@@ -8,4 +8,5 @@ type Message struct {
 	ReceiverID string `json:"receiver_id"`
 	Content    string `json:"content"`
 	Timestamp  string `json:"timestamp"`
+	Own        bool   `json:"own"`
 }
