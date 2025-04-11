@@ -14,6 +14,10 @@ func GetMessages(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	limit := 10
 	offset := r.URL.Query().Get("offset")
 
+	if offset == "" {
+		offset = "0"
+	}
+
 	rows, err := db.Query(`
 		SELECT sender, receiver, content, timestamp 
 		FROM messages 
