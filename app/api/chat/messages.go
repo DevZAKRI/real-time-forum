@@ -3,8 +3,10 @@ package chat
 import (
 	"database/sql"
 	"encoding/json"
-	"forum/app/models"
+	"log"
 	"net/http"
+
+	"forum/app/models"
 )
 
 func GetMessages(w http.ResponseWriter, r *http.Request, db *sql.DB) {
@@ -36,7 +38,8 @@ func GetMessages(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		var msg models.Message
 		err := rows.Scan(&msg.Sender, &msg.Receiver, &msg.Content, &msg.Timestamp)
 		if err != nil {
-			continue // skip for now need to add error later, remember !!!!!!!!!
+			log.Printf("Error scanning message: sender=%s, receiver=%s, error=%v", sender, receiver, err)
+			continue
 		}
 		messages = append(messages, msg)
 	}

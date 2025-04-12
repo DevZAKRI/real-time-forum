@@ -45,6 +45,8 @@ export function openChat(user) {
         existingChatBox.remove();
     }
 
+    offsetMap[user.username] = 0
+
     if (!offsetMap[user.username]) {
         offsetMap[user.username] = 0;
     }

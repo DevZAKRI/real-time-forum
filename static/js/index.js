@@ -12,7 +12,7 @@ document.addEventListener("visibilitychange", function() {
         console.log("WebSocket connection closed");
         console.log("Chat Box Removed");
       }
-      closedWs();
+      // closedWs();
     } else if (document.visibilityState === "visible") {
         initializeWebSocket(localStorage.getItem("xyz"));
         console.log("WebSocket connection opened");
