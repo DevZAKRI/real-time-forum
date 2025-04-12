@@ -2,6 +2,7 @@ export let ws = null;
 import { showNotification } from "./components/notifications.js";
 import { setMessage } from "./components/setMessage.js";
 import { createList, usersSet } from "./users.js"
+import { MessagesSet } from "./chat.js";
 export function initializeWebSocket(userID) {
     if (ws && ws.readyState === WebSocket.OPEN) {
         closedWs();
@@ -26,6 +27,8 @@ export function initializeWebSocket(userID) {
                 } else {
                     var chatBox = document.getElementById(`chat-${message.receiver}`);  
                 }
+                MessagesSet.add(message.id)
+                console.log(MessagesSet,message.id);
                 
                 const chatMessages = chatBox ? chatBox.querySelector('.chat-box-messages') : null;
                 console.log(message)

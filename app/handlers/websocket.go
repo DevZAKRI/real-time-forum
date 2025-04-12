@@ -3,11 +3,12 @@ package handlers
 import (
 	"database/sql"
 	"encoding/json"
+	"net/http"
+	"time"
+
 	"forum/app/config"
 	"forum/app/models"
 	"forum/app/utils"
-	"net/http"
-	"time"
 
 	"github.com/gorilla/websocket"
 )
@@ -83,8 +84,8 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 	// var msgTime time.Time
 	config.Logger.Printf("Message from %s to %s: %s", username, msg.Receiver, msg.Content)
 	msg.Type = "message"
-	_, err = db.Exec("INSERT INTO messages (sender, senderID, receiver, receiverID, content, timestamp, delivered) VALUES (?, ?, ?, ?, ?, ?, ?)",
-		msg.Sender, msg.SenderID, msg.Receiver, msg.ReceiverID, msg.Content, msg.Timestamp, 0)
+	err = db.QueryRow(`INSERT INTO messages (sender, senderID, receiver, receiverID, content, timestamp, delivered) VALUES (?, ?, ?, ?, ?, ?, ?) Returning id`,
+		msg.Sender, msg.SenderID, msg.Receiver, msg.ReceiverID, msg.Content, msg.Timestamp, 0).Scan(&msg.Id)
 	if err != nil {
 		config.Logger.Printf("Database Insert Error: %v", err)
 		return

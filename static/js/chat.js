@@ -3,6 +3,7 @@ import { setMessage } from "./components/setMessage.js";
 import { GetUsers } from "./users.js";
 import { ws } from "./ws.js";
 
+export let MessagesSet = new Set();
 export function Chat() {
     const usersBtn = document.getElementById("users-btn");
     if (usersBtn) {
@@ -104,6 +105,10 @@ export function openChat(user) {
 
 export function sendingMessage(user) {
     const messageInput = document.querySelector(`#chat-${user.username} .chat-box-input`);
+    if (!messageInput) {
+        showNotification('An error occurred!', 'error')
+        return
+    }
     const message = messageInput.value.trim();
     if (!message) {
         showNotification('Message cannot be empty', 'error');
@@ -140,10 +145,14 @@ export function GetMessages(receiver, chatContainer, scroll) {
                 return;
             }
             messages.forEach(msg => {
+                if (!MessagesSet.has(msg.id)) {
+                    MessagesSet.add(msg.id)
                 setMessage(chatContainer, msg, receiver, true)
                 offsetMap[receiver] = (offsetMap[receiver] || 0) + 1
+                }
             });
-
+            console.log(MessagesSet);
+            
             if (!scroll) {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             } else {
