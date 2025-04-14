@@ -23,13 +23,13 @@ export function initializeWebSocket(userID) {
         switch (message.type) {
             case 'message':
                 if (!message.own) {
-                  var chatBox = document.getElementById(`chat-${message.sender}`);  
+                    var chatBox = document.getElementById(`chat-${message.sender}`);
                 } else {
-                    var chatBox = document.getElementById(`chat-${message.receiver}`);  
+                    var chatBox = document.getElementById(`chat-${message.receiver}`);
                 }
                 MessagesSet.add(message.id)
-                console.log(MessagesSet,message.id);
-                
+                console.log(MessagesSet, message.id);
+
                 const chatMessages = chatBox ? chatBox.querySelector('.chat-box-messages') : null;
                 console.log(message)
                 console.log(chatMessages, message.sender)
@@ -42,9 +42,9 @@ export function initializeWebSocket(userID) {
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
                 } else {
-                    if (!message.own){
-                    console.log('X: New Message Recieved From ' + message.sender);
-                    showNotification('New Message Recieved From ' + message.sender, "success");
+                    if (!message.own) {
+                        console.log('X: New Message Recieved From ' + message.sender);
+                        showNotification('New Message Recieved From ' + message.sender, "success");
                     }
                 }
                 break;
@@ -52,7 +52,7 @@ export function initializeWebSocket(userID) {
             case 'status':
                 const statusElement = document.getElementById(`Status-${message.user}`);
                 console.log(statusElement);
-                
+
                 if (statusElement) {
                     statusElement.textContent = message.status === 'online' ? '🟢' : '🔴';
                 } else {

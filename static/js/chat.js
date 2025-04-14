@@ -46,11 +46,12 @@ export function openChat(user) {
         existingChatBox.remove();
     }
 
+    MessagesSet.clear()
     offsetMap[user.username] = 0
 
-    if (!offsetMap[user.username]) {
-        offsetMap[user.username] = 0;
-    }
+    // if (!offsetMap[user.username]) {
+    //     offsetMap[user.username] = 0;
+    // }
 
     const chatBox = document.createElement('div');
     chatBox.classList.add("chat-box");
