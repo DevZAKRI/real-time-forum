@@ -14,4 +14,6 @@ type TemplateData struct {
     IsAuthenticated bool
     Username        string
     Is404           bool
+	StatusCode      int
+	Message         string
 }

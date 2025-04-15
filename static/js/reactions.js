@@ -82,7 +82,6 @@ export async function handleInteraction(e, itemtype) {
         showNotification(`Unkown Type: Reactions only on Posts and Comments`, "error");
         return
       }
-     
     } else {
       console.error("Failed to update interaction. Status:", response.status);
       const err = await response.json();

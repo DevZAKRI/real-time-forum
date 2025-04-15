@@ -12,25 +12,21 @@ type ErrorResponse struct {
 }
 
 func SendErrorResponse(resp http.ResponseWriter, statusCode int, message string) {
-	resp.WriteHeader(statusCode)
-	if statusCode == 404 || statusCode == 405 || statusCode == 403 {
-		config.Logger.Println("Rendering ", statusCode, " section in home template")
-		data := struct {
-			StatusCode int
-			Message    string
-		}{
-			StatusCode: statusCode,
-			Message:    message,
-		}
-
-		config.Templates.ExecuteTemplate(resp, "404.html", data)
-		return
-	} else {
-		resp.Header().Set("Content-Type", "application/json")
-		jsonResponse := ErrorResponse{
-			StatusCode: statusCode,
-			Message:    message}
-		json.NewEncoder(resp).Encode(jsonResponse)
-	}
-
+    resp.WriteHeader(statusCode)
+    if statusCode == 404 || statusCode == 405 || statusCode == 403 {
+        config.Logger.Println("Rendering error section in home template")
+        data := config.TemplateData{
+            Is404:    true,
+            StatusCode: statusCode,
+            Message:   message,
+        }
+        config.Templates.ExecuteTemplate(resp, "home.html", data)
+        return
+    } else {
+        resp.Header().Set("Content-Type", "application/json")
+        jsonResponse := ErrorResponse{
+            StatusCode: statusCode,
+            Message:    message}
+        json.NewEncoder(resp).Encode(jsonResponse)
+    }
 }

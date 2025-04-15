@@ -20,6 +20,11 @@ document.addEventListener("visibilitychange", function() {
   });
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const errorContainer = document.getElementById("error-container");
+    if (errorContainer) {
+      console.log("On error page, skipping normal initialization")  
+      return;
+    }
     const isLoggedIn = await SessionCheck();
     if (isLoggedIn) {
         console.log("Not Here");

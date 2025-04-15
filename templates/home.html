@@ -15,6 +15,14 @@
 </noscript>
 
 <body>
+    {{if .Is404}}
+    <div class="error-container">
+        <h1>{{.StatusCode}}</h1>
+        <p>Something went wrong.</p>
+        <p>Sorry, {{.Message}}</p>
+        <a href="/" class="button">Go Back</a>
+    </div>
+    {{else}}
     {{if .IsAuthenticated}}
     <a onclick="window.scrollTo({top: 0});" class="back-to-top">
         <i class="fa-solid fa-arrow-up"></i>
@@ -31,7 +39,7 @@
                     </div>
             </div>
             <div class="header-nav">
-                
+
                 <ul class="header-list">
                     <li>
                         <p id="header-logout">Welcome ${{.Username}}</p>
@@ -112,14 +120,16 @@
                 <ul id="users-list">
                 </ul>
             </div>
-        </div> 
+        </div>
 
-    </div> 
+    </div>
     {{end}}
-    <script>window.addEventListener('scroll', () => {
-            let scroll = document.querySelector('.back-to-top')
-            scroll.classList.toggle('active', window.scrollY > 500)
-        })</script>
-    <script type="module" src="../static/js/index.js"></script>
+    {{end}}
+</body>
+<script>window.addEventListener('scroll', () => {
+        let scroll = document.querySelector('.back-to-top')
+        scroll.classList.toggle('active', window.scrollY > 500)
+    })</script>
+<script type="module" src="../static/js/index.js"></script>
 
 </html>

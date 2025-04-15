@@ -25,22 +25,24 @@ export async function createList() {
 
     console.log(users);
     usersSet.clear()
-    usersList.innerHTML = ''
-    users.forEach((user) => {
-        if (!usersSet.has(user.username)) {
-            usersSet.add(user.username)
-        }
-
-        let statusDot = user.isOnline
-            ? '🟢'
-            : '🔴';
-
-        const userElement = document.createElement('li');
-        userElement.classList.add(`user-item-${user.username}`);
-        userElement.innerHTML = `
-            <span class="user-name">${user.username}</span>
-            <span id="Status-${user.username}">${statusDot}</span>
-        `;
-        usersList.appendChild(userElement);
-    });
+    if (usersList) {
+        usersList.innerHTML = ''
+        users.forEach((user) => {
+            if (!usersSet.has(user.username)) {
+                usersSet.add(user.username)
+            }
+    
+            let statusDot = user.isOnline
+                ? '🟢'
+                : '🔴';
+    
+            const userElement = document.createElement('li');
+            userElement.classList.add(`user-item-${user.username}`);
+            userElement.innerHTML = `
+                <span class="user-name">${user.username}</span>
+                <span id="Status-${user.username}">${statusDot}</span>
+            `;
+            usersList.appendChild(userElement);
+        });
+    }
 }

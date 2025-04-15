@@ -4,7 +4,7 @@ import { createPostElement } from "./posts.js";
 export let post = {};
 
 export function checkPost() {
-  const isLoggedIn = document.cookie.includes("IsLoggedIn=true");
+  // const isLoggedIn = document.cookie.includes("IsLoggedIn=true");
   const createPostButton = document.getElementById("create-post-button");
 
   if (createPostButton) {
