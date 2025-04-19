@@ -5,7 +5,7 @@ import { initializeWebSocket, closedWs } from "./ws.js";
 
 let debounceTimeout;
 
-document.addEventListener("visibilitychange", function() {
+document.addEventListener("visibilitychange", function () {
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(() => {
     if (document.visibilityState === "hidden") {
@@ -16,11 +16,11 @@ document.addEventListener("visibilitychange", function() {
         console.log("Chat Box Removed");
       }
     } else if (document.visibilityState === "visible") {
-        initializeWebSocket(localStorage.getItem("xyz"));
-        console.log("WebSocket connection opened");
+      initializeWebSocket(localStorage.getItem("xyz"));
+      console.log("WebSocket connection opened");
     }
   }, 300); // debounce visiblity
-  });
+});
 
 document.addEventListener("DOMContentLoaded", async () => {
   const errorContainer = document.getElementById("error-container");
