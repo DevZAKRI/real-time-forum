@@ -5,7 +5,7 @@ import { initializeWebSocket, closedWs } from "./ws.js";
 
 let debounceTimeout;
 
-document.addEventListener("visibilitychange", function() {
+document.addEventListener("visibilitychange", function () {
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(() => {
     if (document.visibilityState === "hidden") {
@@ -17,26 +17,26 @@ document.addEventListener("visibilitychange", function() {
       }
       // closedWs();
     } else if (document.visibilityState === "visible") {
-        initializeWebSocket(localStorage.getItem("xyz"));
-        console.log("WebSocket connection opened");
+      initializeWebSocket(localStorage.getItem("xyz"));
+      console.log("WebSocket connection opened");
     }
   }, 300); // debounce visiblity
-  });
+});
 
 document.addEventListener("DOMContentLoaded", async () => {
   const errorContainer = document.getElementById("error-container");
-    if (errorContainer) {
-      console.log("On error page, skipping normal initialization")  
-      return;
-    }
-    const isLoggedIn = await SessionCheck();
-    if (isLoggedIn) {
-        console.log("Not Here");
-        Home();
-    } else {
-        console.log("Here");
-        openAuthModal();
-    }
+  if (errorContainer) {
+    console.log("On error page, skipping normal initialization")
+    return;
+  }
+  const isLoggedIn = await SessionCheck();
+  if (isLoggedIn) {
+    console.log("Not Here");
+    Home();
+  } else {
+    console.log("Here");
+    openAuthModal();
+  }
 });
 // =======
 
