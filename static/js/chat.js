@@ -59,15 +59,30 @@ export function openChat(user) {
 
     const chatHeader = document.createElement('div');
     chatHeader.classList.add("chat-box-header");
-    chatHeader.innerHTML = `<span>${user.username}</span>`;
+    const nameDiv = document.createElement('div')
+    nameDiv.classList.add('name-div')
+    nameDiv.innerHTML = `<div><span>${user.username}</span></div>`;
 
+    const buttonDiv = document.createElement('div')
     const closeButton = document.createElement('button');
     closeButton.innerHTML = "✖";
     closeButton.addEventListener('click', () => chatBox.remove());
-    chatHeader.appendChild(closeButton);
+    buttonDiv.appendChild(closeButton);
+    nameDiv.appendChild(buttonDiv);
 
     const chatMessages = document.createElement('div');
     chatMessages.classList.add("chat-box-messages");
+
+    const typingDiv = document.createElement('div')
+    const typingInProgress = document.createElement('sub')
+    typingInProgress.classList.add("typing")
+    typingInProgress.textContent = `${user.username} is typing`
+    typingInProgress.style.display = "none"
+
+    typingDiv.appendChild(typingInProgress)
+
+    chatHeader.appendChild(nameDiv)
+    chatHeader.appendChild(typingDiv)
 
     const throttledGetMessages = throttle((user) => {
         GetMessages(user.username, chatMessages, true);
@@ -82,6 +97,24 @@ export function openChat(user) {
     const chatInput = document.createElement('textarea');
     chatInput.classList.add("chat-box-input");
     chatInput.setAttribute("placeholder", "Type a message...");
+
+    let typingTimeout;
+    chatInput.addEventListener('input', () => {
+        ws.send(JSON.stringify({
+            type: 'typing',
+            sender: localStorage.getItem("xyz"),
+            receiver: user.username
+        }))
+
+        clearTimeout(typingTimeout)
+        typingTimeout = setTimeout(() => {
+            ws.send(JSON.stringify({
+                type: 'stopped_typing',
+                sender: localStorage.getItem("xyz"),
+                receiver: user.username
+            }))
+        }, 300)
+    })
     chatInput.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault();

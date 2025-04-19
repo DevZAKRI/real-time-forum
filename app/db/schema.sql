@@ -1,3 +1,4 @@
+PRAGMA foreign_keys = ON;
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,

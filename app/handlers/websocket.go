@@ -72,48 +72,62 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 	exists := false
 	msg.Sender = username
 	msg.SenderID = UserID
-	exists, msg.ReceiverID = checkReciever(msg.Receiver, db)
-	if !exists {
-		config.Logger.Printf("User %s not found", msg.Receiver)
-		return
-	}
-	if msg.Content == "" {
-		config.Logger.Printf("Empty message from %s to %s", username, msg.Receiver)
-		return
-	}
-	// var msgTime time.Time
-	config.Logger.Printf("Message from %s to %s: %s", username, msg.Receiver, msg.Content)
-	msg.Type = "message"
-	err = db.QueryRow(`INSERT INTO messages (sender, senderID, receiver, receiverID, content, timestamp, delivered) VALUES (?, ?, ?, ?, ?, ?, ?) Returning id`,
-		msg.Sender, msg.SenderID, msg.Receiver, msg.ReceiverID, msg.Content, msg.Timestamp, 0).Scan(&msg.Id)
-	if err != nil {
-		config.Logger.Printf("Database Insert Error: %v", err)
-		return
-	}
 
-	models.ClientsLock.Lock()
-	defer models.ClientsLock.Unlock()
+	switch msg.Type {
+	case "typing", "stopped_typing":
+		models.ClientsLock.Lock()
+		if recipient, exists := models.Clients[msg.Receiver]; exists {
+			jsonMessage, _ := json.Marshal(msg)
+			err := recipient.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+			if err != nil {
+				config.Logger.Printf("Error sending typing event: %v", err)
+			}
+		}
+		models.ClientsLock.Unlock()
 
-	if recipient, exists := models.Clients[msg.Receiver]; exists {
-		jsonMessage, _ := json.Marshal(msg)
-		err := recipient.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
-		if err != nil {
-			config.Logger.Printf("Error sending message to recipient: %v", err)
+	case "message":
+		exists, msg.ReceiverID = checkReciever(msg.Receiver, db)
+		if !exists {
+			config.Logger.Printf("User %s not found", msg.Receiver)
 			return
-		} else {
-			config.Logger.Printf("Message delivered to %s", msg.Receiver)
 		}
-		db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", username, msg.Receiver)
-	}
-
-	if SenderOWN, exists := models.Clients[msg.Sender]; exists {
-		msg.Own = true
-		jsonMessage, _ := json.Marshal(msg)
-		err := SenderOWN.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+		if msg.Content == "" {
+			config.Logger.Printf("Empty message from %s to %s", username, msg.Receiver)
+			return
+		}
+		// var msgTime time.Time
+		config.Logger.Printf("Message from %s to %s: %s", username, msg.Receiver, msg.Content)
+		msg.Type = "message"
+		_, err = db.Exec("INSERT INTO messages (sender, senderID, receiver, receiverID, content, timestamp, delivered) VALUES (?, ?, ?, ?, ?, ?, ?)",
+			msg.Sender, msg.SenderID, msg.Receiver, msg.ReceiverID, msg.Content, msg.Timestamp, 0)
 		if err != nil {
-			config.Logger.Printf("Error sending message to sender: %v", err)
+			config.Logger.Printf("Database Insert Error: %v", err)
+			return
 		}
-		config.Logger.Println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+
+		models.ClientsLock.Lock()
+		defer models.ClientsLock.Unlock()
+
+		if recipient, exists := models.Clients[msg.Receiver]; exists {
+			jsonMessage, _ := json.Marshal(msg)
+			err := recipient.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+			if err != nil {
+				config.Logger.Printf("Error sending message to recipient: %v", err)
+				return
+			} else {
+				config.Logger.Printf("Message delivered to %s", msg.Receiver)
+			}
+			db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", username, msg.Receiver)
+		}
+		if SenderOWN, exists := models.Clients[msg.Sender]; exists {
+			msg.Own = true
+			jsonMessage, _ := json.Marshal(msg)
+			err := SenderOWN.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
+			if err != nil {
+				config.Logger.Printf("Error sending message to sender: %v", err)
+			}
+			config.Logger.Println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+		}
 	}
 }
 
