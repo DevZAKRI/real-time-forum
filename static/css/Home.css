@@ -634,6 +634,7 @@ noscript h1 {
   color: white;
   font-weight: bold;
   font-size: 16px;
+  flex-direction: column;
 }
 
 .chat-box-header button {
@@ -665,6 +666,7 @@ noscript h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .typing {
