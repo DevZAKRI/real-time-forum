@@ -152,7 +152,6 @@ export function GetMessages(receiver, chatContainer, scroll) {
                 offsetMap[receiver] = (offsetMap[receiver] || 0) + 1
                 }
             });
-            console.log(MessagesSet);
             
             if (!scroll) {
                 chatContainer.scrollTop = chatContainer.scrollHeight;

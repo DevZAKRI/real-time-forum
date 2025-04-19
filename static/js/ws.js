@@ -18,8 +18,6 @@ export function initializeWebSocket(userID) {
 
     ws.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        console.log("WebSocket message received:", message);
-
         switch (message.type) {
             case 'message':
                 if (!message.own) {
@@ -28,11 +26,8 @@ export function initializeWebSocket(userID) {
                     var chatBox = document.getElementById(`chat-${message.receiver}`);
                 }
                 MessagesSet.add(message.id)
-                console.log(MessagesSet, message.id);
 
                 const chatMessages = chatBox ? chatBox.querySelector('.chat-box-messages') : null;
-                console.log(message)
-                console.log(chatMessages, message.sender)
                 if (chatMessages) {
                     if (message.sender !== message.receiver && !message.own) {
                         setMessage(chatMessages, message, message.sender)
@@ -43,7 +38,6 @@ export function initializeWebSocket(userID) {
                     }
                 } else {
                     if (!message.own) {
-                        console.log('X: New Message Recieved From ' + message.sender);
                         showNotification('New Message Recieved From ' + message.sender, "success");
                     }
                 }
@@ -51,8 +45,6 @@ export function initializeWebSocket(userID) {
 
             case 'status':
                 const statusElement = document.getElementById(`Status-${message.user}`);
-                console.log(statusElement);
-
                 if (statusElement) {
                     statusElement.textContent = message.status === 'online' ? '🟢' : '🔴';
                 } else {
@@ -70,10 +62,6 @@ export function initializeWebSocket(userID) {
         console.error("WebSocket error:", error);
     };
 
-    // Optional: Uncomment if you want to handle WebSocket closure
-    // ws.onclose = () => {
-    //     console.log("WebSocket connection closed");
-    // };
 }
 
 export function closedWs() {

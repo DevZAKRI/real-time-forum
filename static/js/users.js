@@ -23,7 +23,6 @@ export async function createList() {
     const usersList = document.getElementById('users-list');
     const users = await GetUsers();
 
-    console.log(users);
     usersSet.clear()
     if (usersList) {
         usersList.innerHTML = ''

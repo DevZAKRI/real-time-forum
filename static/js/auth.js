@@ -159,7 +159,6 @@ export function auth() {
 
         if (response.ok) {
           const Msg = await response.json();
-          console.log(Msg);
           localStorage.setItem('xyz', Msg.xyz)
           initializeWebSocket(localStorage.getItem('xyz'))
           const message = isLogin ? "Login successful" : "Registration successful";

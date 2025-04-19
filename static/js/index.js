@@ -13,7 +13,6 @@ document.addEventListener("visibilitychange", function () {
       if (chatBox) {
         chatBox.remove();
         console.log("WebSocket connection closed");
-        console.log("Chat Box Removed");
       }
     } else if (document.visibilityState === "visible") {
       initializeWebSocket(localStorage.getItem("xyz"));
@@ -30,10 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     const isLoggedIn = await SessionCheck();
     if (isLoggedIn) {
-        console.log("Not Here");
         Home();
     } else {
-        console.log("Here");
         openAuthModal();
     }
 });
