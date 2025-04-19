@@ -9,6 +9,7 @@ import (
 	"forum/app/api/reactions"
 	"forum/app/api/users"
 	"forum/app/models"
+	"forum/app/utils"
 	"net/http"
 	"strings"
 )
@@ -26,6 +27,11 @@ func Router(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 		return
 
 	case "posts":
+		sessionToken, err := utils.GetSessionToken(req)
+		if err != nil || sessionToken == "" || !auth.SessionCheck(resp, req, db) {
+			models.SendErrorResponse(resp, http.StatusUnauthorized, "Access: Unauthorized")
+			return
+		}
 		if req.Method == http.MethodPost && len(path) > 1 && path[1] == "add" {
 			posts.AddPost(resp, req, db)
 			return
@@ -38,6 +44,11 @@ func Router(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 		return
 
 	case "comments":
+		sessionToken, err := utils.GetSessionToken(req)
+		if err != nil || sessionToken == "" || !auth.SessionCheck(resp, req, db) {
+			models.SendErrorResponse(resp, http.StatusUnauthorized, "Access: Unauthorized")
+			return
+		}
 		if req.Method == http.MethodPost {
 			comments.AddComment(resp, req, db)
 			return
@@ -46,9 +57,19 @@ func Router(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 		return
 
 	case "reactions":
+		sessionToken, err := utils.GetSessionToken(req)
+		if err != nil || sessionToken == "" || !auth.SessionCheck(resp, req, db) {
+			models.SendErrorResponse(resp, http.StatusUnauthorized, "Access: Unauthorized")
+			return
+		}
 		reactions.AddReaction(resp, req, db)
 		return
 	case "users":
+		sessionToken, err := utils.GetSessionToken(req)
+		if err != nil || sessionToken == "" || !auth.SessionCheck(resp, req, db) {
+			models.SendErrorResponse(resp, http.StatusUnauthorized, "Access: Unauthorized")
+			return
+		}
 		if req.Method != http.MethodGet {
 			models.SendErrorResponse(resp, http.StatusMethodNotAllowed, "Error: Method not allowed")
 			return
@@ -56,6 +77,11 @@ func Router(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 		users.GetUsers(resp, req, db)
 		return
 	case "chat":
+		sessionToken, err := utils.GetSessionToken(req)
+		if err != nil || sessionToken == "" || !auth.SessionCheck(resp, req, db) {
+			models.SendErrorResponse(resp, http.StatusUnauthorized, "Access: Unauthorized")
+			return
+		}
 		if req.Method != http.MethodGet {
 			models.SendErrorResponse(resp, http.StatusMethodNotAllowed, "Error: Method Not Allowed")
 			return
