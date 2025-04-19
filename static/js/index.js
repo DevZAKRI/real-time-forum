@@ -3,8 +3,11 @@ import { Home } from "./Home.js";
 import { SessionCheck } from "./components/sessionChecker.js";
 import { initializeWebSocket, closedWs } from "./ws.js";
 
+let debounceTimeout;
 
 document.addEventListener("visibilitychange", function() {
+  clearTimeout(debounceTimeout);
+  debounceTimeout = setTimeout(() => {
     if (document.visibilityState === "hidden") {
       const chatBox = document.querySelector('.chat-box')
       if (chatBox) {
@@ -17,6 +20,7 @@ document.addEventListener("visibilitychange", function() {
         initializeWebSocket(localStorage.getItem("xyz"));
         console.log("WebSocket connection opened");
     }
+  }, 300); // debounce visiblity
   });
 
 document.addEventListener("DOMContentLoaded", async () => {
