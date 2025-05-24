@@ -22,6 +22,17 @@ document.addEventListener("visibilitychange", function () {
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
+    if (window.location.pathname !== "/") {
+document.body.innerHTML = `
+      <div class="error-container">
+        <h1>404</h1>
+        <p>Something went wrong.</p>
+        <p>Sorry, Page Not Found</p>
+      </div>
+    `;
+    return;  
+  }
+
   const errorContainer = document.getElementById("error-container");
     if (errorContainer) {
       console.log("On error page, skipping normal initialization")  
@@ -34,3 +45,4 @@ document.addEventListener("DOMContentLoaded", async () => {
         openAuthModal();
     }
 });
+

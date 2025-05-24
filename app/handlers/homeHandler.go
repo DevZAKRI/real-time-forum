@@ -14,7 +14,7 @@ func Home(resp http.ResponseWriter, req *http.Request, db *sql.DB) {
 
 	if req.URL.Path != "/" {
 		config.Logger.Println("404 error - Page not found for path:", req.URL.Path)
-		models.SendErrorResponse(resp, http.StatusNotFound, "Error: Page Not Found")
+		models.SendErrorResponse(resp, http.StatusNotFound, "Page Not Found")
 		return
 	}
 

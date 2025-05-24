@@ -1,3 +1,6 @@
+PRAGMA foreign_keys = ON;
+
+
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
@@ -13,9 +16,9 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    sender INTEGER NOT NULL,
+    sender TEXT NOT NULL,
     senderID TEXT NOT NULL,
-    receiver INTEGER NOT NULL,
+    receiver TEXT NOT NULL,
     receiverID TEXT NOT NULL,
     content TEXT NOT NULL,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -41,8 +44,8 @@ CREATE TABLE IF NOT EXISTS posts (
 CREATE TABLE IF NOT EXISTS comments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    author STRING NOT NULL,
+    user_id TEXT NOT NULL,
+    author TEXT NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     likes INTEGER DEFAULT 0,
@@ -54,7 +57,7 @@ CREATE TABLE IF NOT EXISTS comments (
 -- User interactions table
 CREATE TABLE IF NOT EXISTS user_interactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id TEXT NOT NULL,
     item_id INTEGER NOT NULL,
     item_type TEXT NOT NULL,
     action TEXT NOT NULL,
@@ -64,7 +67,7 @@ CREATE TABLE IF NOT EXISTS user_interactions (
 
 CREATE TABLE IF NOT EXISTS sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
+    user_id TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     session_token TEXT NOT NULL UNIQUE,
     isloggedin BOOLEAN,

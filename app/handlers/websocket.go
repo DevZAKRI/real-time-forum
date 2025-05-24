@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"forum/app/config"
 	"forum/app/models"
@@ -37,7 +36,6 @@ func HandleConnections(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	config.Logger.Printf("User Connected: %s", userName)
 
 	setStatus(userName, "online")
-	deliverPendingMessages(userName, db)
 
 	for {
 		_, message, err := conn.ReadMessage()
@@ -47,7 +45,6 @@ func HandleConnections(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			} else {
 				config.Logger.Printf("Read Message Error: %v", err)
 			}
-			setStatus(userName, "offline")
 			break
 		}
 
@@ -113,37 +110,6 @@ func handleMessage(msgData []byte, username string, UserID string, db *sql.DB) {
 		if err != nil {
 			config.Logger.Printf("Error sending message to sender: %v", err)
 		}
-		config.Logger.Println("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
-	}
-}
-
-func deliverPendingMessages(userName string, db *sql.DB) {
-	rows, err := db.Query("SELECT sender, senderID, receiver, receiverID, content, timestamp FROM messages WHERE receiver = ? AND delivered = 0", userName)
-	if err != nil {
-		config.Logger.Printf("Error fetching pending messages: %v", err)
-		return
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var msg models.Message
-		err := rows.Scan(&msg.Sender, &msg.SenderID, &msg.Receiver, &msg.ReceiverID, &msg.Content, time.Now())
-		if err != nil {
-			config.Logger.Printf("Error scanning pending message: %v", err)
-			continue
-		}
-		msg.Type = "message"
-		jsonMessage, _ := json.Marshal(msg)
-		models.ClientsLock.Lock()
-		if client, exists := models.Clients[msg.Receiver]; exists {
-			err := client.Conn.WriteMessage(websocket.TextMessage, jsonMessage)
-			if err != nil {
-				config.Logger.Printf("Error delivering pending message: %v", err)
-			}
-		}
-		models.ClientsLock.Unlock()
-
-		db.Exec("UPDATE messages SET delivered = 1 WHERE sender = ? AND receiver = ?", msg.Sender, msg.Receiver)
 	}
 }
 
