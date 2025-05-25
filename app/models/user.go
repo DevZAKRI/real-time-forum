@@ -30,8 +30,8 @@ func ValidUserName(name string) (bool, string) {
 	if name == "" {
 		return false, "username cannot be empty"
 	}
-	if len(name) > 36 {
-		return false, "username cannot be longer than 36 characters"
+	if len(name) > 14 {
+		return false, "username cannot be longer than 14 characters"
 	}
 	for _, char := range name {
 		if !(unicode.IsLetter(char) || unicode.IsDigit(char)) {

@@ -344,6 +344,7 @@ html {
   padding: 24px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   border: 1px solid #e5e7eb;
+  width: max-content;
 }
 
 .user-profile {
@@ -581,6 +582,8 @@ noscript h1 {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   border: 2px solid #007bff;
+  height: 393px;
+  overflow: scroll;
 }
 
 .user-btn {
