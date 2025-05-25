@@ -1,7 +1,7 @@
 import { showNotification } from "./components/notifications.js";
 import { initializeWebSocket } from "./ws.js";
 import { Home } from "./Home.js";
-
+import { closedWs } from "./ws.js";
 export function createAuthModal() {
   const authModalHTML = `
     <div class="auth-modal-overlay" id="authModalOverlay">
@@ -324,8 +324,8 @@ export function logout() {
 
       if (response.ok) {
         localStorage.removeItem('xyz');
+        closedWs();
         showNotification("Logout successful", "success");
-        
         // Save any existing notifications
         const notifications = document.querySelectorAll('.notification-container');
         const notificationsArray = Array.from(notifications);
