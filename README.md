@@ -1,172 +1,146 @@
-# Web Forum Project
+# Real-Time Forum
 
-This project is a web forum that allows users to communicate, create posts, comment, like/dislike posts, and filter content. It is built using SQLite for database management and Docker for containerization. The forum supports user authentication, session management, and various filtering mechanisms.
-
----
+A modern, real-time forum application built with Go and JavaScript, featuring live chat, post management, and user interactions.
 
 ## Features
 
-1. **User Authentication**:
-   - Users can register with an email, username, and password.
-   - Passwords are encrypted before being stored in the database.
-   - Users can log in and maintain a session using cookies with an expiration date.
-   - UUIDs are used for session management (Bonus).
+### Authentication
+- User registration with profile details
+- Secure login/logout functionality
+- Session management
+- Password encryption
 
-2. **Communication**:
-   - Registered users can create posts and associate them with one or more categories.
-   - Users can comment on posts.
-   - Posts and comments are visible to all users (registered and non-registered).
+### Posts and Interactions
+- Create, read posts
+- Categorize posts (General, Tech, Sports, Health, Education)
+- Like/dislike posts
+- Comment on posts
+- Filter posts by categories
+- View personal posts and liked posts
 
-3. **Likes and Dislikes**:
-   - Registered users can like or dislike posts and comments.
-   - The number of likes and dislikes is visible to all users.
+### Real-Time Features
+- Live chat between users
+- Online/offline user status
+- Real-time notifications
+- WebSocket-based communication
 
-4. **Filtering**:
-   - Users can filter posts by:
-     - Categories (subforums).
-     - Posts created by the logged-in user.
-     - Posts liked by the logged-in user.
+### User Interface
+- Modern, responsive design
+- Dark theme
+- User-friendly navigation
+- Dynamic content loading
+- Notification system
 
-5. **Database**:
-   - SQLite is used to store data (users, posts, comments, categories, likes, dislikes).
-   - The database is structured using an Entity-Relationship Diagram (ERD).
+## Technology Stack
 
-6. **Docker**:
-   - The application is containerized using Docker for easy deployment and testing.
+### Backend
+- Go 1.23.5
+- SQLite3 database
+- Gorilla WebSocket for real-time communication
+- UUID for session management
+- Bcrypt for password hashing
 
----
+### Frontend
+- Vanilla JavaScript (ES6+)
+- HTML5
+- CSS3
+- WebSocket API
+- Font Awesome for icons
 
-## Technologies Used
+## Project Structure
 
-- **Backend**: Go (Golang)
-- **Database**: SQLite
-- **Authentication**: Cookies, UUID (Bonus), bcrypt for password encryption
-- **Containerization**: Docker
-- **Testing**: Unit tests (recommended)
-
----
-
-## Setup Instructions
-
-### Prerequisites
-
-1. Install [Docker](https://docs.docker.com/get-docker/).
-2. Install [Go](https://golang.org/doc/install) (if testing locally without Docker).
-
-### Steps to Run the Project
-
-1. **Clone the Repository**:
-```bash
-    git clone https://github.com/A-fethi/Forum.git
-    cd Forum
+```
+.
+├── app/
+│   ├── api/         # API endpoints
+│   ├── config/      # Configuration
+│   ├── handlers/    # Request handlers
+│   ├── models/      # Data models
+│   └── utils/       # Utility functions
+├── static/
+│   ├── css/         # Stylesheets
+│   ├── js/          # JavaScript modules
+│   └── img/         # Images
+├── templates/       # HTML templates
+└── logs/           # Application logs
 ```
 
-2. **Build and Run the Docker Container**:
-```bash
-    docker build -t web-forum .
-    docker run -p 8080:8080 web-forum
-```
+## Prerequisites
 
-3. **Access the Forum**:
+- Go 1.23.5 or higher
+- SQLite3
+- Modern web browser with JavaScript enabled
 
-- Open your browser and go to http://localhost:8080.
+## Installation
 
-4. **Database Initialization**:
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd real-time-forum
+   ```
 
-- The SQLite database will be initialized automatically when the application runs for the first time.
+2. Install Go dependencies:
+   ```bash
+   go mod download
+   ```
 
-- Sample data can be inserted using the INSERT queries provided in the code.
+3. Build and run the application:
+   ```bash
+   go run main.go
+   ```
 
----
+4. Access the application:
+   Open your web browser and navigate to `http://localhost:8080`
 
-## Database Schema
+## Features in Detail
 
-The database consists of the following tables:
+### Authentication System
+- Secure password hashing using bcrypt
+- Session-based authentication
+- Token-based WebSocket authentication
+- Form validation for registration
 
-1. Users:
+### Post Management
+- Rich text content support
+- Multi-category selection
+- Post filtering system
+- Pagination support
 
-- id, email, username, password (encrypted), created_at
+### Real-Time Chat
+- Private messaging between users
+- Online status indicators
+- Message history
+- Real-time message delivery
 
-2. Posts:
+### User Interface
+- Responsive design for all screen sizes
+- Intuitive navigation
+- Dynamic content loading
+- Toast notifications for user feedback
 
-- id, user_id, title, content, created_at
+## Security Features
 
-3. Comments:
-
-- id, post_id, user_id, content, created_at
-
-4. Categories:
-
-- id, name
-
-5. Post_Categories:
-
-- post_id, category_id
-
-6. Likes:
-
-- id, user_id, post_id, comment_id, type (like/dislike)
-
----
-
-## API Endpoints
-
-1. Authentication:
-
-- POST /register - Register a new user.
-
-- POST /login - Log in and create a session.
-
-- POST /logout - Log out and clear the session.
-
-2. Posts:
-
-- GET /posts - Get all posts (filterable by category, user, or liked posts).
-
-- POST /posts - Create a new post (requires authentication).
-
-- GET /posts/{id} - Get a specific post with comments.
-
-3. Comments:
-
-- POST /posts/{id}/comments - Add a comment to a post (requires authentication).
-
-4. Likes/Dislikes:
-
-- POST /posts/{id}/like - Like a post (requires authentication).
-
-- POST /posts/{id}/dislike - Dislike a post (requires authentication).
-
-- POST /comments/{id}/like - Like a comment (requires authentication).
-
-- POST /comments/{id}/dislike - Dislike a comment (requires authentication).
-
----
-
-## Error Handling
-
-- The application handles HTTP errors (e.g., 404, 500) and displays user-friendly messages.
-
-- Database errors (e.g., duplicate email) are caught and returned as JSON responses.
-
----
-
-## Bonus Features
-
-1. Password Encryption:
-
-- Passwords are encrypted using bcrypt.
-
-2. UUID for Sessions:
-
-- UUIDs are used to manage user sessions securely.
-
-3. Docker Optimization:
-
-- Multi-stage Docker builds are used to reduce the final image size.
-
----
+- Password encryption
+- Session management
+- CSRF protection
+- Input validation
+- Secure WebSocket connections
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Font Awesome for icons
+- Go community for excellent packages
+- Contributors and testers 
+- mzakri && afethi

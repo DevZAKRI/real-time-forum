@@ -1,2 +1,0 @@
-showing user when register auto
-updating user list when send recieving msg
