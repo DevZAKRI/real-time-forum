@@ -44,4 +44,22 @@ export async function createList() {
             usersList.appendChild(userElement);
         });
     }
+    let usersContainer = document.querySelector('.users-container');
+    if (usersContainer) {
+        usersContainer.innerHTML = '';
+        const closeButton = document.createElement('button');
+        closeButton.innerHTML = "✖";
+        closeButton.addEventListener('click', () => usersContainer.remove());
+        usersContainer.appendChild(closeButton);
+        users.forEach(user => {
+            if (!usersSet.has(user.username)) {
+                usersSet.add(user.username);
+            }
+            const userBtn = document.createElement('button');
+            userBtn.textContent = user.username;
+            userBtn.classList.add("user-btn");
+            userBtn.addEventListener('click', () => openChat(user));
+            usersContainer.appendChild(userBtn);
+        });
+    }
 }

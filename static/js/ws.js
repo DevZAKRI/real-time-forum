@@ -18,6 +18,7 @@ export function initializeWebSocket(userID) {
 
     ws.onmessage = (event) => {
         const message = JSON.parse(event.data);
+        console.log("Received message:", message);
         switch (message.type) {
             case 'message':
                 if (!message.own) {
@@ -26,13 +27,15 @@ export function initializeWebSocket(userID) {
                     var chatBox = document.getElementById(`chat-${message.receiver}`);
                 }
                 MessagesSet.add(message.id)
-
+                createList();
                 const chatMessages = chatBox ? chatBox.querySelector('.chat-box-messages') : null;
                 if (chatMessages) {
                     if (message.sender !== message.receiver && !message.own) {
                         setMessage(chatMessages, message, message.sender)
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     } else if (message.own) {
+                        console.log("Message is own, setting in receiver's chat box");
+                        
                         setMessage(chatMessages, message, message.receiver)
                         chatMessages.scrollTop = chatMessages.scrollHeight;
                     }
